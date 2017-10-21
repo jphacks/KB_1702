@@ -1,15 +1,28 @@
 package util
 
 import (
+	"crypto/rand"
 	"encoding/hex"
-	"hash/fnv"
-	"time"
+	"math/big"
+	"strconv"
+
+	"golang.org/x/crypto/scrypt"
 )
 
-var h = fnv.New64a()
+// GetRandomString 16桁のランダムな文字列を返す
+func getRandomString() string {
+	const base = 36
+	size := big.NewInt(base)
+	n := make([]byte, 16)
+	for i := range n {
+		c, _ := rand.Int(rand.Reader, size)
+		n[i] = strconv.FormatInt(c.Int64(), base)[0]
+	}
+	return string(n)
+}
 
-func GetHash(str string) string {
-	h.Write([]byte(time.Now().Round(time.Hour).Add(-1 * time.Hour).String()))
-	h.Write([]byte(str))
-	return hex.EncodeToString(h.Sum(nil))
+// CreateTokenHash 渡された文字列とsaltからTokenハッシュを生成する
+func CreateTokenHash(str string) string {
+	converted, _ := scrypt.Key([]byte(str), []byte(getRandomString()), 16384, 8, 1, 10)
+	return hex.EncodeToString(converted[:])
 }

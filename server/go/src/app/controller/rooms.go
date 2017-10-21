@@ -29,27 +29,27 @@ func NewRoomsController(service *goa.Service, mgo *mgo.Session) *RoomsController
 }
 
 type Room struct {
-	RoomID   string    `json:"room_id"`
-	Name     string    `json:"name"`
-	Progress int       `json:"progress"`
-	StartAt  time.Time `json:"start_at"`
-	EndAt    time.Time `json:"end_at"`
-	Agenda   []Agenda  `json:"agenda"`
+	RoomID   string    `json:"room_id" bson:"room_id"`
+	Name     string    `json:"name" bson:"name"`
+	Progress int       `json:"progress" bson:"progress"`
+	StartAt  time.Time `json:"start_at" bson:"start_at"`
+	EndAt    time.Time `json:"end_at" bson:"end_at"`
+	Agenda   []Agenda  `json:"agenda" bson:"agenda"`
 }
 
 type Agenda struct {
-	ID      int       `json:"id"`
-	Title   string    `json:"title"`
-	Goal    string    `json:"goal"`
-	Time    int       `json:"time"`
-	StartAt time.Time `json:"start_at"`
-	EndAt   time.Time `json:"end_at"`
-	Child   []Agenda  `json:"child"`
+	ID      int       `json:"id" bson:"id"`
+	Title   string    `json:"title" bson:"title"`
+	Goal    string    `json:"goal" bson:"goal"`
+	Time    int       `json:"time" bson:"time"`
+	StartAt time.Time `json:"start_at" bson:"start_at"`
+	EndAt   time.Time `json:"end_at" bson:"end_at"`
+	Child   []Agenda  `json:"child" bson:"child"`
 }
 
 type InsertAgenda struct {
 	ID   bson.ObjectId `json:"id" bson:"_id"`
-	Room Room          `json:"room"`
+	Room Room          `json:"room" bson:"room"`
 }
 
 // Create runs the create action.
@@ -70,12 +70,14 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 
 	mongo := c.Mgo.DB("test").C("jphacks")
 	for {
-		roomID := util.GetHash(data.Room.Name)
-		count, err := mongo.Find(nil).Select(bson.M{"room": bson.M{"$elemMatch": bson.M{"room_id": roomID}}}).Count()
+		roomID := util.CreateTokenHash(data.Room.Name)
+		fmt.Println(roomID)
+		count, err := mongo.Find(bson.M{"room.room_id": roomID}).Count()
 		if err != nil {
 			return goa.ErrBadRequest(err)
 		}
-		if count > 0 {
+		fmt.Println(count)
+		if count <= 0 {
 			data.Room.RoomID = roomID
 			break
 		}
@@ -84,13 +86,12 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
-	var agenda InsertAgenda
-	if err := mongo.FindId(data.ID).One(&agenda); err != nil {
-		return goa.ErrBadRequest(err)
-	}
+	// TODO あとで消す
+	fmt.Println(data.ID)
+	fmt.Println(data.Room.RoomID)
 
 	// RoomsController_Create: end_implement
-	ctx.ResponseData.Header().Set("Location", fmt.Sprintf("/rooms/%s", data.ID.Hex()))
+	ctx.ResponseData.Header().Set("Location", fmt.Sprintf("/rooms/%s", data.Room.RoomID))
 	return ctx.SeeOther()
 }
 
@@ -99,14 +100,10 @@ func (c *RoomsController) Show(ctx *app.ShowRoomsContext) error {
 	// RoomsController_Show: start_implement
 
 	// Put your logic here
-	if !bson.IsObjectIdHex(ctx.ID) {
-		return goa.ErrBadRequest(fmt.Errorf("idの形式がmongoに合っていません"))
-	}
-	id := bson.ObjectIdHex(ctx.ID)
-
 	mongo := c.Mgo.DB("test").C("jphacks")
 	var agenda InsertAgenda
-	if err := mongo.FindId(id).One(&agenda); err != nil {
+	err := mongo.Find(bson.M{"room.room_id": ctx.ID}).One(&agenda)
+	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
 
