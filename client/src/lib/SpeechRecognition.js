@@ -14,7 +14,7 @@ export default class SpeechRecognition
     recognition.lang = 'ja';
     recognition.interimResults = true;
     recognition.continuous = true;
-    
+
     recognition.onsoundend = () => {
       console.log('onsoundend')
 
