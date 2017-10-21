@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <TimeSchedule />
+    <TimeSchedule
+      title="JPHACKS つくるもの会議"
+      room-start="2017-10-21T15:00:00+09:00"
+    />
   </div>
 </template>
 
