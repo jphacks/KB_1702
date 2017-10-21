@@ -26,4 +26,9 @@ export default class SkyWay
       this.leaveMember(id)
     })
   }
+
+  endCall() {
+    this.otherStreams = []
+    this.room.close()
+  }
 }

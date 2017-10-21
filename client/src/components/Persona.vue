@@ -1,6 +1,6 @@
 <template>
     <div class="persona">
-        <video ref="video" autoplay playsinline></video>
+        <video ref="video" autoplay playsinline controls></video>
         <div class="actions">
             <div class="action-btn">
                 <img src="../assets/like.svg" alt="">
@@ -13,12 +13,21 @@
 </template>
 
 <script>
+    import Speak from '../lib/Speak.js'
+
 export default {
   props: ['stream'],
+  data() {
+    return {
+      speak: {}
+    }
+  },
   mounted() {
     let el = this.$refs.video
     el.srcObject = this.stream
     el.play()
+
+    this.speak = new Speak(this.stream)
   }
 }
 </script>

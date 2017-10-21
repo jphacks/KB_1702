@@ -1,11 +1,14 @@
 <template>
     <div>
         <div id="self-video">
-            <video ref="selfVideo"></video>
+            <video ref="selfVideo" controls></video>
             <span v-if="skyWay.peer">peerId: {{ skyWay.peer.id }}</span>
         </div>
         <div id="other-videos">
             <persona v-for="stream in skyWay.otherStreams" :stream="stream"></persona>
+        </div>
+        <div id="chat-actions">
+            <button @click="endCall">End Call</button>
         </div>
         <input type="text" v-model="roomName">
         <button @click="join">Join</button>
@@ -15,6 +18,7 @@
 <script>
 import Persona from './Persona.vue'
 import SkyWay from '../lib/SkyWay'
+import Speak from '../lib/Speak'
 
 export default {
   data() {
@@ -27,8 +31,12 @@ export default {
     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(stream => {
       this.skyWay = new SkyWay(stream, {
         key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
-        debug: 3,
+//        debug: 3,
       })
+
+//      let speak = new Speak(stream)
+
+
 
       this.skyWay.joinOther = (stream) => {
       }
@@ -42,6 +50,9 @@ export default {
   methods: {
     join() {
       this.skyWay.joinRoom(this.roomName)
+    },
+    endCall() {
+      this.skyWay.endCall()
     }
   },
   components: {
