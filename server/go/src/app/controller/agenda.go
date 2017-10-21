@@ -57,16 +57,29 @@ func (c *AgendaController) AddReaction(ctx *app.AddReactionAgendaContext) error 
 
 	// Put your logic here
 
-	// AgendaController_AddReaction: end_implement
+	// AgendaController_AddDecision: end_implement
 	return nil
 }
 
-// AddResult runs the addResult action.
-func (c *AgendaController) AddResult(ctx *app.AddResultAgendaContext) error {
-	// AgendaController_AddResult: start_implement
+// AddDecision runs the addDecision action.
+func (c *AgendaController) AddDecision(ctx *app.AddDecisionAgendaContext) error {
+	// AgendaController_AddDecision: start_implement
 
 	// Put your logic here
-
+	query := bson.M{
+		"room.room_id": ctx.Payload.RoomID,
+		"room.agenda":  bson.M{"$elemMatch": bson.M{"id": ctx.ID}},
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"room.agenda.$.decision": ctx.Payload.Decision,
+		},
+	}
+	mongo := c.Mgo.DB(constant.DBName).C(constant.CollectionRoom)
+	_, err := mongo.Upsert(query, update)
+	if err != nil {
+		return goa.ErrBadRequest(err)
+	}
 	// AgendaController_AddResult: end_implement
 	return nil
 }
