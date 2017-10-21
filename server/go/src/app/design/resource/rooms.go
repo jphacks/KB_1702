@@ -2,14 +2,12 @@ package resource
 
 import (
 	. "app/design/constant"
-	"app/design/media"
 
 	. "github.com/goadesign/goa/design"
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
 var _ = Resource("rooms", func() {
-	DefaultMedia(media.RoomType)
 	BasePath("/api/rooms")
 	Action("create", func() {
 		Description("ルームを作成する")
@@ -24,6 +22,10 @@ var _ = Resource("rooms", func() {
 		Routing(
 			POST("/:id"),
 		)
+		Params(func() {
+			Param("id", String, "id")
+			Required("id")
+		})
 		Response(OK, Any)
 		UseTrait(GeneralUserTrait)
 	})

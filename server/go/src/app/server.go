@@ -48,6 +48,9 @@ func (s *Server) mountController() {
 	// Mount "rooms" controller
 	room := controller.NewRoomsController(s.service, s.mongodb)
 	app.MountRoomsController(s.service, room)
+	// Mount "agenda" controller
+	agenda := controller.NewAgendaController(s.service, s.mongodb)
+	app.MountAgendaController(s.service, agenda)
 	// Mount "front" controller
 	front := controller.NewFrontController(s.service)
 	app.MountFrontController(s.service, front)
