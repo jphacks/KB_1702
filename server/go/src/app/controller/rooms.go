@@ -48,7 +48,7 @@ type Agenda struct {
 }
 
 type InsertAgenda struct {
-	ID   bson.ObjectId `json:"id" bson:"_id"`
+	ID   bson.ObjectId `json:"-" bson:"_id"`
 	Room Room          `json:"room" bson:"room"`
 }
 
