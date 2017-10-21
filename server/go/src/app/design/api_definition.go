@@ -4,7 +4,6 @@ import (
 	"os"
 
 	. "app/design/constant"
-	_ "app/design/models"
 	_ "app/design/resource"
 
 	. "github.com/goadesign/goa/design"
