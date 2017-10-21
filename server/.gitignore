@@ -7,6 +7,9 @@ tmp/
 
 **/debug
 
+### config ###
+mongodb.yml
+
 ### goa ###
 go/src/app/app/
 go/src/app/client/
