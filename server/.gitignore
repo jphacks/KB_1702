@@ -4,6 +4,7 @@ go/src/*
 !go/src/app/
 go/src/app/goapp
 tmp/
+Gopkg.lock
 
 **/debug
 
