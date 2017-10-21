@@ -2,6 +2,7 @@
     <div id="video-chat">
         <div id="other-videos">
             <persona v-for="stream in skyWay.otherStreams" :stream="stream"></persona>
+            <p>{{ minutes }}</p>
         </div>
         <div id="chat-actions">
             <div id="self-video">
@@ -25,6 +26,7 @@ export default {
       skyWay: {},
       roomName: '',
       speak: {},
+      minutes: ''
     }
   },
   mounted() {
@@ -33,18 +35,21 @@ export default {
         key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
 //        debug: 3,
       })
+      let speechRecognition = new SpeechRecognition()
+      speechRecognition.onResult = (result) => {
+        this.minutes += result
+      }
 
       this.speak = new Speak(stream)
-      this.speak.onStartSpeak(() => {
-        console.log('StartSpeak')
-        SpeechRecognition.start()
-      })
+      this.speak.onStartSpeak = () => {
 
-      this.speak.onEndSpeak(() => {
+        console.log('StartSpeak')
+      }
+
+
+      this.speak.onEndSpeak = () => {
         console.log('EndSpeak')
-        let result = SpeechRecognition.stop()
-        console.log(result)
-      })
+      }
 
 //      for(var i = 0; i < 5; i++) {
 //        this.skyWay.otherStreams.push(stream)
