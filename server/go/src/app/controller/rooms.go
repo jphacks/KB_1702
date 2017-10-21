@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"time"
 
+	"app/util"
+
 	"github.com/goadesign/goa"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -65,7 +67,19 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 		return goa.ErrBadRequest(err)
 	}
 	data.ID = bson.NewObjectId()
+
 	mongo := c.Mgo.DB("test").C("jphacks")
+	for {
+		roomID := util.GetHash(data.Room.Name)
+		count, err := mongo.Find(nil).Select(bson.M{"room": bson.M{"$elemMatch": bson.M{"room_id": roomID}}}).Count()
+		if err != nil {
+			return goa.ErrBadRequest(err)
+		}
+		if count > 0 {
+			data.Room.RoomID = roomID
+			break
+		}
+	}
 	err = mongo.Insert(&data)
 	if err != nil {
 		return goa.ErrBadRequest(err)
