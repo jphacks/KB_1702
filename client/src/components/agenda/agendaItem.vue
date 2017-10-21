@@ -17,27 +17,31 @@ export default {
   components: {
     AgendaInfo
   },
-//   data() {
-//       return {
-//           isProgressing: false
-//       }
-//   },
-//   mounted() {
-//       if (this.item.id === this.progress) {
-//           this.isProgressing = true
-//       }
-//   },
+  //   data() {
+  //       return {
+  //           isProgressing: false
+  //       }
+  //   },
+  //   mounted() {
+  //       if (this.item.id === this.progress) {
+  //           this.isProgressing = true
+  //       }
+  //   },
   computed: {
-      isProgressing() {
-          return this.item.id === this.progress
-      }
+    isProgressing() {
+      return this.item.id === this.progress;
+    }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .progressing {
-  background-color: orange;
+  div {
+    font-size: 150%;
+    color: #2f2f2f;
+    font-weight: bolder;
+  }
 }
 </style>
 
