@@ -46,17 +46,8 @@ type Agenda struct {
 }
 
 type InsertAgenda struct {
-	ID     bson.ObjectId `json:"id" bson:"_id"`
-	Room   Room          `json:"room"`
-	Agenda []struct {
-		ID      int       `json:"id"`
-		Title   string    `json:"title"`
-		Goal    string    `json:"goal"`
-		Time    int       `json:"time"`
-		StartAt time.Time `json:"start_at"`
-		EndAt   time.Time `json:"end_at"`
-		Child   []Agenda  `json:"child"`
-	} `json:"agenda"`
+	ID   bson.ObjectId `json:"id" bson:"_id"`
+	Room Room          `json:"room"`
 }
 
 // Create runs the create action.
