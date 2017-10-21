@@ -1,0 +1,30 @@
+version: '3'
+services:
+#  golang:
+#    build:
+#      context: .
+#      args:
+#        USER: $USER
+#        UID: $UID
+#    image: golang-app
+#    volumes:
+#      - ./go:/go
+#    command: sh ./start.sh
+#    env_file:
+#      - .env
+#    ports:
+#      - 8080:8080
+#    container_name: api
+
+  mongodb:
+      restart: always
+      image: mongo:latest
+      ports:
+          - 27017:27017
+      volumes:
+          - mongo-data:/data/db
+      container_name: "mongo"
+
+volumes:
+  mongo-data:
+    driver: local
