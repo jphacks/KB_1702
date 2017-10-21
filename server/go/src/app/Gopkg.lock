@@ -83,11 +83,23 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","websocket"]
-  revision = "a04bdaca5b32abe1c069418fb7088ae607de5bd0"
+  revision = "cd69bc3fc700721b709c3a59e16e24c67b58f6ff"
+
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/mgo.v2"
+  packages = [".","bson","internal/json","internal/sasl","internal/scram"]
+  revision = "3f83fa5005286a7fe593b055f0d7771a7dce4655"
+
+[[projects]]
+  branch = "v1"
+  name = "gopkg.in/yaml.v1"
+  packages = ["."]
+  revision = "9f9df34309c04878acc86042b16630b0f696e1de"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1066b99cbc422f022bc45530267235e40427ed796c4a5e199918a907552805be"
+  inputs-digest = "e4e0df5023421d178460e8bd3cce7418787e16ade2a4fc76cc1ce11e2f113c6c"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -4,20 +4,25 @@ package main
 
 import (
 	"flag"
+	"log"
 
 	"app/app"
+	"app/config"
 	"app/controller"
 	"app/design"
-	"app/mymiddleware"
+
+	"path/filepath"
 
 	"github.com/deadcheat/goacors"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
+	mgo "gopkg.in/mgo.v2"
 )
 
 // Server 実行に必要な値を保持している
 type Server struct {
 	service *goa.Service
+	mongodb *mgo.Session
 }
 
 // NewServer Server構造体を作成する
@@ -27,13 +32,25 @@ func NewServer(s *goa.Service) *Server {
 	}
 }
 
+// loadConfig 設定ファイルの読み込み
+func (s *Server) loadConfig(settingFolder string, env string) {
+	cs, err := config.NewMongodbConfigsFromFile(filepath.Join(settingFolder, "mongodb.yml"))
+	if err != nil {
+		log.Fatalf("cannot open mongodb configuration. exit. %s", err)
+	}
+	s.mongodb, err = cs.MongodbOpen(env)
+	if err != nil {
+		log.Fatalf("mongodb initialization failed: %s", err)
+	}
+}
+
 func (s *Server) mountController() {
-	// Mount "meetings" controller
-	meetings := controller.NewMeetingsController(s.service)
-	app.MountMeetingsController(s.service, meetings)
-	// Mount "speeches" controller
-	speeches := controller.NewSpeechesController(s.service)
-	app.MountSpeechesController(s.service, speeches)
+	// Mount "rooms" controller
+	room := controller.NewRoomsController(s.service, s.mongodb)
+	app.MountRoomsController(s.service, room)
+	// Mount "front" controller
+	front := controller.NewFrontController(s.service)
+	app.MountFrontController(s.service, front)
 	// Mount "swagger" controller
 	swagger := controller.NewSwaggerController(s.service)
 	app.MountSwaggerController(s.service, swagger)
@@ -42,32 +59,25 @@ func (s *Server) mountController() {
 	app.MountSwaggeruiController(s.service, swaggerui)
 }
 
-func (s *Server) mountMiddleware(noSecure bool, env string) {
+func (s *Server) mountMiddleware(env string) {
 	s.service.Use(middleware.RequestID())
 	s.service.Use(middleware.LogRequest(true))
 	s.service.Use(middleware.ErrorHandler(s.service, true))
 	s.service.Use(middleware.Recover())
 	s.service.Use(goacors.WithConfig(s.service, design.CorsConfig[env]))
-
-	if noSecure {
-		app.UseAdminAuthMiddleware(s.service, mymiddleware.NewTestModeMiddleware())
-		app.UseGeneralAuthMiddleware(s.service, mymiddleware.NewTestModeMiddleware())
-	} else {
-		app.UseAdminAuthMiddleware(s.service, mymiddleware.NewAdminUserAuthMiddleware())
-		app.UseGeneralAuthMiddleware(s.service, mymiddleware.NewGeneralUserAuthMiddleware())
-	}
 }
 
 func main() {
-	service := goa.New("pei0804/goa-docker-stater")
+	service := goa.New(design.REPO)
 	var (
-		port     = flag.String("port", ":8080", "addr to bind")
-		env      = flag.String("env", "production", "実行環境 (production, staging, develop)")
-		noSecure = flag.Bool("noSecure", false, "テストモードで実行。trueにすると、常にユーザーID: 1 参加しているインターンID: 1になります。")
+		port    = flag.String("port", ":8080", "addr to bind")
+		env     = flag.String("env", "develop", "実行環境 (production, develop)")
+		confDir = flag.String("confDir", "./config", "設定ファイルの場所")
 	)
 	flag.Parse()
 	s := NewServer(service)
-	s.mountMiddleware(*noSecure, *env)
+	s.loadConfig(*confDir, *env)
+	s.mountMiddleware(*env)
 	s.mountController()
 
 	// Start service

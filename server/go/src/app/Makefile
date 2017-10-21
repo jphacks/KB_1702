@@ -53,6 +53,9 @@ ENV:=develop
 PORT:=:8080
 NOSECURE:=false
 
+set-config:
+	cp -f config/mongodb.yml.tmpl config/mongodb.yml
+
 run:
 	go run server.go
 

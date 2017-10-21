@@ -15,3 +15,15 @@ services:
     ports:
       - 8080:8080
     container_name: api
+
+  mongodb:
+      image: mongo:latest
+      ports:
+          - 27017:27017
+      volumes:
+          - mongo-data:/data/db
+      container_name: "mongo"
+
+volumes:
+  mongo-data:
+    driver: local
