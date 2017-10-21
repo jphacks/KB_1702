@@ -24,7 +24,9 @@ import logger from '../../lib/Logger';
 import formatUtil from '../../lib/FormatUtil';
 import moment from 'moment';
 
+// constants
 const UNIX_TIME_INTERVAL = 32400;
+const agendaStartTime = "2017-10-21T16:00:00+09:00";
 
 export default {
   name: 'time-schedule',
@@ -40,7 +42,7 @@ export default {
       time: {
         agenda: {
           elapsed: '00:00',
-          goal: '00:00'
+          goal: this.formatGoalTime(10)
         },
         total: '00:00'
       }
@@ -63,6 +65,14 @@ export default {
         count += 1;
         this.time.total = moment.unix(diff + count - UNIX_TIME_INTERVAL).format('HH:mm');
       }, 1000);
+    },
+    formatGoalTime(time) {
+      const hour = Math.trunc(time / 60);
+      const min = Math.trunc(time % 60);
+      return `${formatUtil.zeroSuppress(hour)}:${formatUtil.zeroSuppress(min)}`;
+    },
+    agendaTimer() {
+      let count = 0;
     }
   }
 }
