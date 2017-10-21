@@ -1,4 +1,4 @@
-const SPEAK_VOLUME = 20
+const SPEAK_VOLUME = 10
 const SPEAK_TIME = 2
 
 export default class Speak
