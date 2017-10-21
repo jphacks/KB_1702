@@ -26,7 +26,8 @@ import moment from 'moment';
 
 // constants
 const UNIX_TIME_INTERVAL = 32400;
-const agendaStartTime = "2017-10-21T16:00:00+09:00";
+const agendaStartTime = "2017-10-21T16:40:00+09:00";
+const agendaHopeTime = 10;
 
 export default {
   name: 'time-schedule',
@@ -34,15 +35,15 @@ export default {
   data() {
     return {
       timerManage: {
-        timerId: null,
+        roomTimerId: null,
+        agendaTimerId: null,
         count: 0
       },
       isElapsedTimeOver: false,
-      hoge: 'hoge',
       time: {
         agenda: {
           elapsed: '00:00',
-          goal: this.formatGoalTime(10)
+          goal: this.formatGoalTime(agendaHopeTime)
         },
         total: '00:00'
       }
@@ -52,16 +53,18 @@ export default {
   mounted() {
     logger.cycle("mounted");
     this.startRoomTimer();
+    this.agendaTimer(agendaStartTime);
   },
   beforeDestroy() {
     logger.biglog("beforeDestroy");
-    clearTimeout(this.timerManage.timerId);
+    clearTimeout(this.timerManage.roomTimerId);
+    clearTimeout(this.timerManage.agendaTimerId);
   },
   methods: {
     startRoomTimer() {
       let count = 0;
       const diff = Math.trunc(moment().diff(moment(this.roomStart)) / 1000);
-      this.timerManage.timerId = setInterval(() => {
+      this.timerManage.roomTimerId = setInterval(() => {
         count += 1;
         this.time.total = moment.unix(diff + count - UNIX_TIME_INTERVAL).format('HH:mm');
       }, 1000);
@@ -71,8 +74,14 @@ export default {
       const min = Math.trunc(time % 60);
       return `${formatUtil.zeroSuppress(hour)}:${formatUtil.zeroSuppress(min)}`;
     },
-    agendaTimer() {
+    agendaTimer(startTime) {
       let count = 0;
+      const diff = Math.trunc(moment().diff(moment(startTime)) / 1000);
+      this.timerManage.agendaTimerId = setInterval(() => {
+        count += 1;
+        this.time.agenda.elapsed = moment.unix(diff + count - UNIX_TIME_INTERVAL).format('HH:mm');
+        this.isElapsedTimeOver = moment().isAfter(moment(startTime).add(agendaHopeTime, 'minutes'));
+      }, 1000);
     }
   }
 }
