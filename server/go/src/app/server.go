@@ -38,7 +38,7 @@ func (s *Server) loadConfig(settingFolder string, env string) {
 	if err != nil {
 		log.Fatalf("cannot open mongodb configuration. exit. %s", err)
 	}
-	s.mongodb, err = cs.MongodbOpen(env)
+	s.mongodb, err = cs.MongoOpen(env)
 	if err != nil {
 		log.Fatalf("mongodb initialization failed: %s", err)
 	}

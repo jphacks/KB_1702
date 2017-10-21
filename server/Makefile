@@ -27,8 +27,11 @@ docker_restart:
 docker_rm:
 	docker-compose rm
 
-docker_ssh:
-	docker exec -it plus-api /bin/bash
+docker_ssh_api:
+	docker exec -it api /bin/bash
+
+docker_ssh_mongo:
+	docker exec -it mongo /bin/bash
 
 direnv:
 	direnv allow
