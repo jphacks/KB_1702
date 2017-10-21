@@ -9,9 +9,13 @@
 # see: https://github.com/go-sql-driver/mysql/pull/309
 # see: http://dsas.blog.klab.org/archives/52191467.html
 develop:
-  dialect: mongodb
-  datasource: mongodb://localhost:27017/jphacks
+  hosts: 0.0.0.0:27017
+  database: local
+  username: root
+  password: password
 
 production:
-  dialect: mongodb
-  datasource: mongodb://localhost:27017/jphacks
+  hosts: 0.0.0.0:27017
+  database: local
+  username: root
+  password: password
