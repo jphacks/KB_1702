@@ -4,7 +4,7 @@ import (
 	"app/app"
 	"encoding/json"
 	"fmt"
-	"log"
+	"io/ioutil"
 	"time"
 
 	"github.com/goadesign/goa"
@@ -46,7 +46,7 @@ type Agenda struct {
 }
 
 type InsertAgenda struct {
-	ID     bson.ObjectId `bson:"_id"`
+	ID     bson.ObjectId `json:"id" bson:"_id"`
 	Room   Room          `json:"room"`
 	Agenda []struct {
 		ID      int       `json:"id"`
@@ -59,64 +59,17 @@ type InsertAgenda struct {
 	} `json:"agenda"`
 }
 
-var jsonStr = `{
-    "agenda": [
-        {
-            "id": 1,
-            "title": "アイデア出し",
-            "goal": "アイデアを10個出す",
-            "time": 10,
-            "start_at": "1995-01-11T06:25:13+09:00",
-            "end_at": "1995-01-11T06:25:13+09:00",
-            "child": [
-                {
-                    "id": 2,
-                    "title": "テーマを考える",
-                    "goal": "テーマ案を5個出す",
-                    "time": 5,
-                    "start_at": "1995-01-11T06:25:13+09:00",
-                    "end_at": "1995-01-11T06:25:13+09:00",
-                    "child": [
-                        {
-                            "id": 3,
-                            "title": "ブレスト",
-                            "goal": "アイデアを10個出す",
-                            "time": 5,
-                            "start_at": "1995-01-11T06:25:13+09:00",
-                            "end_at": "1995-01-11T06:25:13+09:00"
-                        }
-                    ]
-                },
-                {
-                    "id": 3,
-                    "title": "ブレスト",
-                    "goal": "アイデアを10個出す",
-                    "time": 5,
-                    "start_at": "1995-01-11T06:25:13+09:00",
-                    "end_at": "1995-01-11T06:25:13+09:00"
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "title": "アイデアを絞る",
-            "goal": "アイデアを1個に絞る",
-            "time": 10,
-            "start_at": "1995-01-11T06:25:13+09:00",
-            "end_at": "1995-01-11T06:25:13+09:00"
-        }
-    ]
-}`
-
 // Create runs the create action.
 func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	// RoomsController_Create: start_implement
 
 	// Put your logic here
-	jsonBytes := ([]byte)(jsonStr)
+	jsonBytes, err := ioutil.ReadAll(ctx.Request.Body)
+	if err != nil {
+		return goa.ErrBadRequest(err)
+	}
 	data := new(InsertAgenda)
-
-	err := json.Unmarshal(jsonBytes, data)
+	err = json.Unmarshal(jsonBytes, data)
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
@@ -126,15 +79,13 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
-
 	var agenda InsertAgenda
 	if err := mongo.FindId(data.ID).One(&agenda); err != nil {
-		log.Fatal(err)
+		return goa.ErrBadRequest(err)
 	}
-	fmt.Println(agenda)
 
 	// RoomsController_Create: end_implement
-	ctx.ResponseData.Header().Set("Location", "/rooms/1")
+	ctx.ResponseData.Header().Set("Location", fmt.Sprintf("/rooms/%s", data.ID.Hex()))
 	return ctx.SeeOther()
 }
 
@@ -143,7 +94,17 @@ func (c *RoomsController) Show(ctx *app.ShowRoomsContext) error {
 	// RoomsController_Show: start_implement
 
 	// Put your logic here
+	if !bson.IsObjectIdHex(ctx.ID) {
+		return goa.ErrBadRequest(fmt.Errorf("idの形式がmongoに合っていません"))
+	}
+	id := bson.ObjectIdHex(ctx.ID)
+
+	mongo := c.Mgo.DB("test").C("jphacks")
+	var agenda InsertAgenda
+	if err := mongo.FindId(id).One(&agenda); err != nil {
+		return goa.ErrBadRequest(err)
+	}
 
 	// RoomsController_Show: end_implement
-	return ctx.OK(``)
+	return ctx.OK(agenda)
 }
