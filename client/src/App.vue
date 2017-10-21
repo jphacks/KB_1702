@@ -1,18 +1,22 @@
 <template>
   <div id="app">
-    <TopView />
+    <!-- <TopView /> -->
     <Agenda :agenda="roomData.agenda" :progress="roomData.progress" v-on:change-progress="changeProgress" />
+    <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
   </div>
 </template>
 
 <script>
 import TopView from "./components/topView/index.vue";
 import Agenda from "./components/agenda/agenda.vue";
+import Decision from "./components/decision/decision.vue";
+
 export default {
   name: "app",
   components: {
     // TopView,
-    Agenda
+    Agenda,
+    Decision
   },
   methods: {
     changeProgress(progress) {
@@ -42,17 +46,7 @@ export default {
                 goal: "アイデアを10個出す",
                 time: 10,
                 start_at: "1995-01-11T06:25:13+09:00",
-                end_at: "1995-01-11T06:25:13+09:00",
-                child: [
-                  {
-                    id: 4,
-                    title: "アイデア出し",
-                    goal: "アイデアを10個出す",
-                    time: 10,
-                    start_at: "1995-01-11T06:25:13+09:00",
-                    end_at: "1995-01-11T06:25:13+09:00"
-                  }
-                ]
+                end_at: "1995-01-11T06:25:13+09:00"
               }
             ]
           },
@@ -79,7 +73,7 @@ export default {
   color: #2c3e50;
 }
 ul {
-  list-style-type: disc;
+  list-style-type: square;
   margin-left: 2em;
 }
 </style>
