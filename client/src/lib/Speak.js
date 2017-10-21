@@ -4,6 +4,9 @@ const SPEAK_TIME = 2
 export default class Speak
 {
   constructor(stream) {
+    this.onStartSpeak = () => {}
+    this.onEndSpeak = (speakTime) => {}
+
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioContext = new AudioContext();
     let mediaStreamSource = audioContext.createMediaStreamSource(stream)
@@ -30,6 +33,7 @@ export default class Speak
 
     processor.onaudioprocess = (event) => {
       this.volume = Speak.instrumentationVolume(event)
+      console.log(this.volume)
       if(Speak.isOver(this.volume)) this.overFlag = true
     }
   }
@@ -69,23 +73,19 @@ export default class Speak
   }
 
   startSpeak() {
+    console.debug('StartSpeak')
     this.onStartSpeak()
     this.speakStartTime = new Date().getTime()
     this.speakingFlag = true
   }
 
   endSpeak() {
+    console.debug('EndSpeak')
     let now = new Date().getTime()
     this.notSpeakCountReset()
     this.onEndSpeak(now - this.speakStartTime)
     this.speakingFlag = false
   }
 
-  onStartSpeak() {
-    console.log('StartSpeak')
-  }
 
-  onEndSpeak(speakTime) {
-    console.log('EndSpeak', speakTime)
-  }
 }
