@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <video-chat></video-chat>
+    <!--<video-chat></video-chat>-->
+    <room></room>
   </div>
 </template>
 
 <script>
 import Persona from './components/Persona.vue'
 import VideoChat from './components/VideoChat.vue'
+import Room from './components/Room.vue'
 
 export default {
   name: 'app',
@@ -28,7 +30,15 @@ export default {
   },
   components: {
     VideoChat,
-    Persona
+    Persona,
+    Room
   }
 }
 </script>
+
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+</style>
