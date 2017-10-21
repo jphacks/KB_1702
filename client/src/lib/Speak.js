@@ -33,7 +33,6 @@ export default class Speak
 
     processor.onaudioprocess = (event) => {
       this.volume = Speak.instrumentationVolume(event)
-      console.log(this.volume)
       if(Speak.isOver(this.volume)) this.overFlag = true
     }
   }
