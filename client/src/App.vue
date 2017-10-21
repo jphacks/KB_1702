@@ -1,19 +1,16 @@
 <template>
   <div id="app">
-    <TimeSchedule
-      title="JPHACKS つくるもの会議"
-      room-start="2017-10-21T15:00:00+09:00"
-    />
+    <CreateRoom />
   </div>
 </template>
 
 <script>
-import TimeSchedule from './components/timeSchedule/index.vue'
+import CreateRoom from './components/createRoom/index.vue'
 
 export default {
   name: 'app',
   components: {
-    TimeSchedule
+    CreateRoom
   }
 }
 </script>
