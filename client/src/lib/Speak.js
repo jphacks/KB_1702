@@ -1,5 +1,5 @@
-const SPEAK_VOLUME = 3
-const SPEAK_TIME = 3
+const SPEAK_VOLUME = 20
+const SPEAK_TIME = 2
 
 export default class Speak
 {
@@ -11,64 +11,26 @@ export default class Speak
     mediaStreamSource.connect(processor)
     processor.connect(audioContext.destination)
 
-    this.speakCounter = 0
-    //喋った判定
-    let counter = {
-      '1': 0,
-      '10': 0,
-      '100': 0,
-      '1000': 0,
-      '10000': 0,
-    }
-
+    this.notSpeakCount = 0;
     this.lastSampling = new Date()
-
-    let notSpeakingCount = 0;
-    let speakFlag = false
     this.overFlag = false
     this.speakingFlag = false
     this.speakStartTime = null
-    // setInterval(() => {
-    //   console.log(counter)
-    //   if(Speak.isSpeak()) {
-    //     notSpeakingCount++
-    //     if(notSpeakingCount > 3 && speakFlag) {
-    //       notSpeakingCount = 0
-    //       speakFlag = false
-    //       console.log('EndSpeak')
-    //     }
-    //   } else {
-    //     notSpeakingCount = 0
-    //     if(!speakFlag) {
-    //       console.log('StartSpeak')
-    //       speakFlag = true
-    //     }
-    //     // console.log('Speaking')
-    //   }
-    //
-    //   counter = {
-    //     '1': 0,
-    //     '10': 0,
-    //     '100': 0,
-    //     '1000': 0,
-    //     '10000': 0,
-    //   }
-    // }, 1000 * 1)
+
+    this.intervalKey = setInterval(() => {
+      if(this.overFlag) {
+        this.notSpeakCountReset()
+        if(this.isSpeak()) this.startSpeak()
+      } else {
+        this.notSpeakCountUp()
+        if(this.isSilence()) this.endSpeak()
+      }
+      this.overFlag = false
+    }, 1000)
 
     processor.onaudioprocess = (event) => {
-      let volume = Speak.instrumentationVolume(event)
-      this.overFlag = Speak.isOver(volume)
-      if(this.isSamplingTiming()) {
-        // console.log(this.speakingFlag)
-        if(this.overFlag && this.isSpeak()) {
-          //SPEAK_TIME秒の間にvolumeが規定値を超えた、かつspeakingFlagがfalse場合
-          this.startSpeak()
-        } else if(this.isSilence()) {
-          this.endSpeak()
-        }
-        this.updateLastSampling()
-      }
-
+      this.volume = Speak.instrumentationVolume(event)
+      if(Speak.isOver(this.volume)) this.overFlag = true
     }
   }
 
@@ -90,26 +52,20 @@ export default class Speak
     return volume > SPEAK_VOLUME
   }
 
+  notSpeakCountUp() {
+    this.notSpeakCount++
+  }
+
+  notSpeakCountReset() {
+    this.notSpeakCount = 0
+  }
+
   isSpeak() {
     return !this.speakingFlag
   }
 
   isSilence() {
-    return this.elapsedTime > SPEAK_TIME && this.speakingFlag
-  }
-
-  isSamplingTiming() {
-    return this.elapsedTime > 1500
-  }
-
-  //最後のサンプリングからの経過時間
-  get elapsedTime() {
-    let now = new Date()
-    return now.getTime() - this.lastSampling.getTime()
-  }
-
-  updateLastSampling() {
-    this.lastSampling = new Date()
+    return this.notSpeakCount > SPEAK_TIME && this.speakingFlag
   }
 
   startSpeak() {
@@ -120,6 +76,7 @@ export default class Speak
 
   endSpeak() {
     let now = new Date().getTime()
+    this.notSpeakCountReset()
     this.onEndSpeak(now - this.speakStartTime)
     this.speakingFlag = false
   }
@@ -128,7 +85,7 @@ export default class Speak
     console.log('StartSpeak')
   }
 
-  onEndSpeak() {
-    console.log('EndSpeak')
+  onEndSpeak(speakTime) {
+    console.log('EndSpeak', speakTime)
   }
 }
