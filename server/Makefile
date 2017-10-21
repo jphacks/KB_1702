@@ -58,3 +58,9 @@ win-install:
 
 curl:
 	curl -v -X POST --header 'Content-Type: application/json' --header 'Accept: application/vnd.goa.error' 'http://localhost:8080/api/rooms' -d '{"room": {"id": "dwabdhjwabkjdbadka","name": "うぇいサウンド","progress": 1,"start_at": "1995-01-11T06:25:13+09:00","end_at": "1995-01-11T06:25:13+09:00","agenda": [{"id": 1,"title": "アイデア出し","goal": "アイデアを10個出す","decision": "これとこれとこれとこれ","time": 10,"start_at": "1995-01-11T06:25:13+09:00","end_at": "1995-01-11T06:25:13+09:00","child": [{"id": 2,"title": "テーマを考える","goal": "テーマ案を5個出す","decision": "あれとあれとあれとあれ","time": 5,"start_at": "1995-01-11T06:25:13+09:00","end_at": "1995-01-11T06:25:13+09:00","child": []},{"id": 3,"title": "ブレスト","goal": "アイデアを10個出す","decision": "それとそれとそれとそれ","time": 5,"start_at": "1995-01-11T06:25:13+09:00","end_at": "1995-01-11T06:25:13+09:00","child": []}]},{"id": 4,"title": "アイデアを絞る","goal": "アイデアを1個に絞る","decision": "こいつぅううぅう","time": 10,"start_at": "1995-01-11T06:25:13+09:00","end_at": "1995-01-11T06:25:13+09:00","child": []}]}}'
+
+ws-install:
+	go get -u github.com/raphael/wsc
+
+ws:
+	wsc ws://localhost:8080/api/rooms/ws?id=$(id)

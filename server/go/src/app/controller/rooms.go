@@ -9,6 +9,8 @@ import (
 
 	"app/util"
 
+	"app/design/constant"
+
 	"github.com/goadesign/goa"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -68,7 +70,7 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	}
 	data.ID = bson.NewObjectId()
 
-	mongo := c.Mgo.DB("test").C("jphacks")
+	mongo := c.Mgo.DB(constant.DBName).C(constant.CollectionRoom)
 	for {
 		roomID := util.CreateTokenHash(data.Room.Name)
 		fmt.Println(roomID)
@@ -86,10 +88,6 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
-	// TODO あとで消す
-	fmt.Println(data.ID)
-	fmt.Println(data.Room.RoomID)
-
 	// RoomsController_Create: end_implement
 	ctx.ResponseData.Header().Set("Location", fmt.Sprintf("/rooms/%s", data.Room.RoomID))
 	return ctx.SeeOther()
@@ -100,7 +98,7 @@ func (c *RoomsController) Show(ctx *app.ShowRoomsContext) error {
 	// RoomsController_Show: start_implement
 
 	// Put your logic here
-	mongo := c.Mgo.DB("test").C("jphacks")
+	mongo := c.Mgo.DB(constant.DBName).C(constant.CollectionRoom)
 	var agenda InsertAgenda
 	err := mongo.Find(bson.M{"room.room_id": ctx.ID}).One(&agenda)
 	if err != nil {

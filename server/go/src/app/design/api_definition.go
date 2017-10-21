@@ -44,4 +44,10 @@ var _ = API(REPO, func() {
 		Response(BadRequest, ErrorMedia)
 		Response(InternalServerError, ErrorMedia)
 	})
+	Trait(WebsocketTrait, func() {
+		Response(Unauthorized, ErrorMedia)
+		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
 })
