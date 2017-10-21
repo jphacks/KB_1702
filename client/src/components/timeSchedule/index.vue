@@ -80,7 +80,7 @@ export default {
       this.timerManage.agendaTimerId = setInterval(() => {
         count += 1;
         this.time.agenda.elapsed = moment.unix(diff + count - UNIX_TIME_INTERVAL).format('HH:mm');
-        this.isElapsedTimeOver = moment().isAfter(moment(startTime).add(agendaHopeTime, 'minutes'));
+        // this.isElapsedTimeOver = moment().isAfter(moment(startTime).add(agendaHopeTime, 'minutes'));
       }, 1000);
     }
   }
