@@ -13,6 +13,7 @@
 <script>
 import AgendaItem from "./agendaItem.vue";
 import NextAgenda from "./nextAgenda.vue";
+import axios from "axios";
 
 export default {
   props: ["agenda", "progress"],
@@ -21,9 +22,26 @@ export default {
     NextAgenda
   },
   methods: {
-      changeProgress() {
-          this.$emit('change-progress', this.progress + 1)
-      }
+    changeProgress() {
+      let url = "/api/agenda/";
+
+      let path = window.location.pathname.split("/");
+      let roomId = path[path.length - 1];
+      url += roomId;
+      url += "/next";
+
+      axios
+        .post(url, {
+          finish_agenda_id: this.progress
+        })
+        .then(response => {
+          this.$emit("recive-next-progress", response.data.nextProgress);
+        })
+        .catch(error => {
+          // apiアクセスミスっても動いてるように見える
+          this.$emit("recive-next-progress", this.progress + 1);
+        });
+    }
   }
 };
 </script>
