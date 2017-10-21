@@ -4,6 +4,8 @@ import 'buefy/lib/buefy.css'
 
 import App from './App.vue'
 
+import Room from './components/Room.vue'
+Vue.component('Room', Room)
 Vue.use(Buefy)
 
 import AgendaItem from './components/agenda/agendaItem.vue'
