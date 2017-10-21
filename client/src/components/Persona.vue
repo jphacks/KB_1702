@@ -85,6 +85,7 @@ export default {
             position: relative;
             video {
                 width: 100%;
+                width: 100%;
                 height:100%;
             }
 
