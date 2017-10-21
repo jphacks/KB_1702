@@ -1,7 +1,14 @@
 <template>
-    <div>
+    <div class="persona">
         <video ref="video" autoplay playsinline></video>
-        <span>peerId: {{ stream.peerId }}</span>
+        <div class="actions">
+            <div class="action-btn">
+                <img src="../assets/like.svg" alt="">
+            </div>
+            <div class="action-btn">
+                <img src="../assets/thumb-up.svg" alt="">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -12,14 +19,32 @@ export default {
     let el = this.$refs.video
     el.srcObject = this.stream
     el.play()
-  },
-  watch: {
-    stream: {
-      deep: true,
-      handler(val, old) {
-        console.log('change stream')
-      }
-    }
   }
 }
 </script>
+
+<style scoped lang="scss">
+    .persona {
+        border: solid 4px gray;
+        border-radius: 10px;
+        overflow: hidden;
+        flex: 1;
+        margin: 40px;
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+    }
+    .actions {
+        display: flex;
+        height: 100px;
+    }
+    .action-btn {
+        height: 100%;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+</style>

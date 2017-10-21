@@ -4,7 +4,8 @@ export default class SkyWay
     this.peer = new Peer(option)
     this.stream = stream
     this.otherStreams = []
-    this.joinOther = () => {}
+    this.joinMember = () => {}
+    this.leaveMember = () => {}
   }
 
   joinRoom(roomName) {
@@ -14,6 +15,15 @@ export default class SkyWay
       this.otherStreams.push(stream)
       //CallBack
       this.joinOther(stream)
+    })
+
+    this.room.on('peerLeave', (id) => {
+      let idx = this.otherStreams.indexOf((stream) => {
+        return stream.peerId == id
+      })
+      this.otherStreams.splice(idx, 1)
+
+      this.leaveMember(id)
     })
   }
 }

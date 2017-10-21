@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>ビデオチャット</h1>
-        <div>
+        <div id="self-video">
             <video ref="selfVideo"></video>
             <span v-if="skyWay.peer">peerId: {{ skyWay.peer.id }}</span>
         </div>
@@ -28,18 +27,13 @@ export default {
     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(stream => {
       this.skyWay = new SkyWay(stream, {
         key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
-//        debug: 3,
+        debug: 3,
       })
-//      let skyWay = new SkyWay(stream, {
-//        key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
-//        debug: 3,
-//      })
-//      this.$set(this.$data, 'hoge', skyWay)
 
       this.skyWay.joinOther = (stream) => {
-//        console.log(stream)
       }
 
+      //自分のビデオを再生
       let el = this.$refs.selfVideo
       el.srcObject = this.skyWay.stream
       el.play()
