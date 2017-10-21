@@ -9,11 +9,6 @@ import TimeSchedule from './TimeSchedule/index.vue'
 
 export default {
   name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
   components: {
     TimeSchedule
   }
