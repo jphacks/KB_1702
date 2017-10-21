@@ -6,6 +6,9 @@ import App from './App.vue'
 
 Vue.use(Buefy)
 
+import AgendaItem from './components/agenda/agendaItem.vue'
+Vue.component('AgendaItem', AgendaItem)
+
 new Vue({
   el: '#app',
   render: h => h(App)
