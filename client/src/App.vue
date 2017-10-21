@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TimeSchedule from './TimeSchedule/index.vue'
+import TimeSchedule from './components/timeSchedule/index.vue'
 
 export default {
   name: 'app',
