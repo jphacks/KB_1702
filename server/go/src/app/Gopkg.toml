@@ -30,13 +30,9 @@
   version = "1.3.0"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/goadesign/gorma"
+  branch = "v2"
+  name = "gopkg.in/mgo.v2"
 
 [[constraint]]
-  name = "github.com/jinzhu/gorm"
-  version = "1.0.0"
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/spf13/cobra"
+  branch = "v1"
+  name = "gopkg.in/yaml.v1"

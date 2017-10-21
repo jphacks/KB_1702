@@ -19,7 +19,6 @@ depend:
 	go get -u github.com/alecthomas/gometalinter/...
 	gometalinter --install --update --force
 	go get -u github.com/goadesign/goa
-	go get -u github.com/goadesign/gorma
 	go get -u github.com/jinzhu/gorm
 	go get -u github.com/deadcheat/goacors
 
@@ -42,10 +41,6 @@ generate:
 	goagen swagger -d $(REPO)/design
 	goagen client -d $(REPO)/design
 	goagen schema -d $(REPO)/design
-
-models:
-	ls models | grep -v '_defined.go' | xargs rm -f
-	goagen --design=$(REPO)/design gen --pkg-path=github.com/goadesign/gorma
 
 ##### etc #####
 
