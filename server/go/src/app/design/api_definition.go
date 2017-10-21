@@ -11,7 +11,7 @@ import (
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
-const REPO = "parliament"
+const REPO = "jphacks/KB_1702"
 
 var _ = API(REPO, func() {
 	Title(REPO)
@@ -39,15 +39,7 @@ var _ = API(REPO, func() {
 		return "http"
 	}())
 	BasePath("/")
-	Trait(AdminUserTrait, func() {
-		Security(AdminAuth)
-		Response(Unauthorized, ErrorMedia)
-		Response(NotFound)
-		Response(BadRequest, ErrorMedia)
-		Response(InternalServerError, ErrorMedia)
-	})
 	Trait(GeneralUserTrait, func() {
-		Security(GeneralAuth)
 		Response(Unauthorized, ErrorMedia)
 		Response(NotFound)
 		Response(BadRequest, ErrorMedia)
