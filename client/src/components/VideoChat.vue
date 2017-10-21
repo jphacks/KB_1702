@@ -25,6 +25,7 @@ export default {
     return {
       skyWay: {},
       roomName: '',
+      speak: {},
     }
   },
   mounted() {
@@ -34,7 +35,7 @@ export default {
 //        debug: 3,
       })
 
-//      let speak = new Speak(stream)
+      this.speak = new Speak(stream)
 
 
 

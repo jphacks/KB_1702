@@ -1,5 +1,5 @@
 <template>
-    <div class="persona">
+    <div class="persona" :class="{'is-speal': isSpeak}">
         <video ref="video" autoplay playsinline controls></video>
         <div class="actions">
             <div class="action-btn">
@@ -19,7 +19,8 @@ export default {
   props: ['stream'],
   data() {
     return {
-      speak: {}
+      speak: {},
+      isSpeak: false
     }
   },
   mounted() {
@@ -28,6 +29,13 @@ export default {
     el.play()
 
     this.speak = new Speak(this.stream)
+    this.speak.onStartSpeak = () => {
+      this.isSpeak = true
+    }
+
+    this.speak.onEndSpeak = (spealTime) => {
+      this.isSpeak = false
+    }
   }
 }
 </script>
@@ -39,6 +47,10 @@ export default {
         overflow: hidden;
         flex: 1;
         margin: 40px;
+
+        & .is-speak {
+            border-color: red;
+        }
 
         video {
             width: 100%;
@@ -56,4 +68,6 @@ export default {
             height: 100%;
         }
     }
+
+
 </style>
