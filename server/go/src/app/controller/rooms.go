@@ -3,10 +3,9 @@ package controller
 import (
 	"app/app"
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
-
-	"fmt"
 
 	"github.com/goadesign/goa"
 	"gopkg.in/mgo.v2"
@@ -28,12 +27,12 @@ func NewRoomsController(service *goa.Service, mgo *mgo.Session) *RoomsController
 }
 
 type Room struct {
-	ID       bson.ObjectId `bson:"_id"`
-	Name     string        `json:"name"`
-	Progress int           `json:"progress"`
-	StartAt  time.Time     `json:"start_at"`
-	EndAt    time.Time     `json:"end_at"`
-	Agenda   []Agenda      `json:"agenda"`
+	RoomID   string    `json:"room_id"`
+	Name     string    `json:"name"`
+	Progress int       `json:"progress"`
+	StartAt  time.Time `json:"start_at"`
+	EndAt    time.Time `json:"end_at"`
+	Agenda   []Agenda  `json:"agenda"`
 }
 
 type Agenda struct {
@@ -47,7 +46,8 @@ type Agenda struct {
 }
 
 type InsertAgenda struct {
-	Room   Room `json:"room"`
+	ID     bson.ObjectId `bson:"_id"`
+	Room   Room          `json:"room"`
 	Agenda []struct {
 		ID      int       `json:"id"`
 		Title   string    `json:"title"`
@@ -120,48 +120,18 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
-	data.Room.ID = bson.NewObjectId()
+	data.ID = bson.NewObjectId()
 	mongo := c.Mgo.DB("test").C("jphacks")
 	err = mongo.Insert(&data)
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
 
-	//idStr := data.Room.ID.String()
-	//if !bson.IsObjectIdHex(idStr) {
-	//	return goa.ErrBadRequest(goa.ErrBadRequest(err))
-	//}
-	//id := bson.ObjectIdHex(idStr)
-
-	var men []InsertAgenda
-	if err := mongo.Find(nil).All(&men); err != nil {
+	var agenda InsertAgenda
+	if err := mongo.FindId(data.ID).One(&agenda); err != nil {
 		log.Fatal(err)
 	}
-	//spew.Dump(men)
-	fmt.Println(data.Room.ID)
-	fmt.Println(bson.ObjectIdHex("59eb24144e25ba1f6a3d063a"))
-
-	var result InsertAgenda
-	if err := mongo.FindId(bson.ObjectIdHex("59eb24144e25ba1f6a3d063a")).One(&result); err != nil {
-		return goa.ErrInternal(err)
-	}
-	//spew.Dump(result)
-
-	//idStr := "565edd868bc93d268a13bc02"
-	//if !bson.IsObjectIdHex(idStr) {
-	//	log.Fatal("not objectId")
-	//}
-	//id := bson.ObjectIdHex(idStr)
-	//
-	//// Collection People
-	//// Query One
-	//result := InsertAgenda{}
-	//
-	//err = mongo.FindId(id).One(&result)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println("Phone", result)
+	fmt.Println(agenda)
 
 	// RoomsController_Create: end_implement
 	ctx.ResponseData.Header().Set("Location", "/rooms/1")
