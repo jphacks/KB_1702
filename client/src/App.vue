@@ -11,7 +11,7 @@ import Agenda from "./components/agenda/agenda.vue";
 export default {
   name: "app",
   components: {
-    TopView,
+    // TopView,
     Agenda
   },
   methods: {
