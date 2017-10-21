@@ -1,5 +1,5 @@
 <template>
-    <div class="persona" :class="{'is-speal': isSpeak}">
+    <div class="persona" :class="{'is-speak': isSpeak}">
         <video ref="video" autoplay playsinline controls></video>
         <div class="actions">
             <div class="action-btn">
@@ -48,15 +48,17 @@ export default {
         flex: 1;
         margin: 40px;
 
-        & .is-speak {
-            border-color: red;
-        }
 
         video {
             width: 100%;
             height: auto;
         }
     }
+
+    .is-speak {
+        border-color: red;
+    }
+
     .actions {
         display: flex;
         height: 100px;
