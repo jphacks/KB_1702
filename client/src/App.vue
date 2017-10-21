@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <!-- <TopView /> -->
     <Agenda :agenda="roomData.agenda" :progress="roomData.progress" v-on:change-progress="changeProgress" />
     <Decision :agenda="roomData.agenda" :progress="roomData.progress" />

@@ -12,6 +12,8 @@
 
 <script>
   import VideoChat from './VideoChat.vue'
+  import Agenda from './agenda/agenda.vue'
+
   export default {
     components: {
       VideoChat
