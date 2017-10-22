@@ -3,16 +3,6 @@
     <DecisionForm :class="{progressing: isProgressing}" v-on:update-decision="updateDecision">
     </DecisionForm>
     <ResultButton v-on:fix-decision="postDecision"></ResultButton>
-    <template v-if="item.child">
-        <ul class="decision-child-list">
-            <DecisionItem 
-            v-for="decision in item.child" 
-            :item="decision" 
-            :key="decision.id" 
-            :progress="progress">
-            </DecisionItem>
-        </ul>
-    </template>
   </li>
 </template>
 
@@ -26,11 +16,6 @@ export default {
   components: {
     DecisionForm,
     ResultButton
-  },
-  computed: {
-    isProgressing() {
-      return this.item.id === this.progress;
-    }
   },
   data() {
     return {
