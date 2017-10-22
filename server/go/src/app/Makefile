@@ -47,6 +47,7 @@ generate:
 ENV:=develop
 PORT:=:8080
 NOSECURE:=false
+CLIENT:=../../../../client
 
 set-config:
 	cp -f config/mongodb.yml.tmpl config/mongodb.yml
@@ -55,6 +56,7 @@ run:
 	go run server.go
 
 build:
+	$(MAKE) -C $(CLIENT) cp
 	go build -o goapp .
 
 swaggerui:
