@@ -27,7 +27,7 @@ import AgendaField from './agendaField.vue';
 import agendaManager from '../../lib/AgendaManager';
 
 export default {
-  name: 'create-room',
+  name: 'room-create',
   components: {
     AgendaField
   },
