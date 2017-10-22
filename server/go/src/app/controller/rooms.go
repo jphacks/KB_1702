@@ -34,8 +34,8 @@ type Room struct {
 	RoomID   string    `json:"room_id" bson:"room_id"`
 	Name     string    `json:"name" bson:"name"`
 	Progress int       `json:"progress" bson:"progress"`
-	StartAt  time.Time `json:"start_at" bson:"start_at"`
-	EndAt    time.Time `json:"end_at" bson:"end_at"`
+	//StartAt  time.Time `json:"start_at" bson:"start_at"`
+	//EndAt    time.Time `json:"end_at" bson:"end_at"`
 	Agenda   []Agenda  `json:"agenda" bson:"agenda"`
 }
 
@@ -45,8 +45,8 @@ type Agenda struct {
 	Goal     string    `json:"goal" bson:"goal"`
 	Decision string    `json:"decision" bson:"decision"`
 	Time     int       `json:"time" bson:"time"`
-	StartAt  time.Time `json:"start_at" bson:"start_at"`
-	EndAt    time.Time `json:"end_at" bson:"end_at"`
+	//StartAt  time.Time `json:"start_at" bson:"start_at"`
+	//EndAt    time.Time `json:"end_at" bson:"end_at"`
 	Child    []Agenda  `json:"child" bson:"child"`
 }
 
