@@ -1,5 +1,5 @@
 <template>
-  <div class="agenda-field" :style="{marginLeft: agenda.margin + 'rem'}">
+  <div class="agenda-field">
 
     <div class="agenda-card">
       <div class="agenda-card-detail">
@@ -9,11 +9,6 @@
       </div>
       <a class="button is-danger delete-agenda" @click="destroyAgenda">×</a>
     </div>
-    <a
-      class="button is-primary child-agenda"
-      @click="childAgenda"
-      v-if="agenda.isParent"
-    >詳細を追加</a>
 
   </div>
 </template>
@@ -34,9 +29,6 @@ export default {
   methods: {
     destroyAgenda() {
       agendaManager.destroy(this.agenda.id);
-    },
-    childAgenda() {
-      agendaManager.child(this.agenda.id)
     }
   }
 }
@@ -62,9 +54,6 @@ export default {
       flex-direction: column;
       align-items: flex-end;
     }
-  }
-  .child-agenda {
-    margin-top: 10px;
   }
 }
 </style>
