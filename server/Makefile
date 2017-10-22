@@ -64,3 +64,6 @@ ws-install:
 
 ws:
 	wsc ws://localhost:8080/api/rooms/ws?id=$(id)
+
+pro-ws:
+	wsc ws://blouson.tech/api/rooms/ws?id=$(id)

@@ -133,6 +133,7 @@ func (c *AgendaController) Websocket(ctx *app.WebsocketAgendaContext) error {
 
 	// Put your logic here
 	c.ws.WebsocketServe(ctx.ID, ctx.ResponseWriter, ctx.Request)
+	c.ws.Send(ctx.ID, "hello", "world")
 
 	// AgendaController_Websocket: end_implement
 	return nil
