@@ -11,6 +11,7 @@
   "dependencies": {
     "buefy": "^0.1.5",
     "bulma": "^0.6.0",
+    "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "style-loader": "^0.19.0",
     "vue": "^2.4.4"

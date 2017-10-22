@@ -8,34 +8,21 @@
 
     <div class="field">
       <label>アジェンダを追加する</label>
+      <template v-for="agenda in agendas">
+        <AgendaField
+          :agenda="agenda"
+          :key="agenda.id"
+        />
+      </template>
+      <button @click="create" class="button is-primary">新しくアジェンダを追加</button>
     </div>
 
   </div>
 </template>
 
 <script>
-
 import AgendaField from './agendaField.vue';
-
-const MOCK_AGENDAS = [
-  {
-    id: 1,
-    title: 'アイデア出し',
-    goal: 'アイデアを10個だす',
-    time: 10,
-    margin: 1,
-    child: [
-      {
-        id: 2,
-        title: 'アイデア出し',
-        goal: 'アイデアを10個だす',
-        time: 10,
-        margin: 2,
-        child: []
-      }
-    ]
-  }
-];
+import agendaManager from '../../lib/AgendaManager';
 
 export default {
   name: 'create-room',
@@ -45,13 +32,22 @@ export default {
   data() {
     return {
       titleInput: '',
-      agendas: MOCK_AGENDAS
+      agendas: agendaManager.data
+    }
+  },
+  methods: {
+    create() {
+      agendaManager.create();
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #create-room {
+  .button {
+    margin-top: 10px;
+    display: block;
+  }
 }
 </style>
