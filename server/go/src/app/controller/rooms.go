@@ -90,7 +90,7 @@ func (c *RoomsController) Create(ctx *app.CreateRoomsContext) error {
 	}
 	// RoomsController_Create: end_implement
 	ctx.ResponseData.Header().Set("Location", fmt.Sprintf("/rooms/%s", data.Room.RoomID))
-	return ctx.SeeOther(fmt.Sprintf("/rooms/%s", data.Room.RoomID))
+	return ctx.OK(fmt.Sprintf("/rooms/%s", data.Room.RoomID))
 }
 
 // Show runs the show action.

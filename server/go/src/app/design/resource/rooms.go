@@ -14,7 +14,7 @@ var _ = Resource("rooms", func() {
 		Routing(
 			POST(""),
 		)
-		Response(SeeOther, String)
+		Response(OK, String)
 		UseTrait(GeneralUserTrait)
 	})
 	Action("show", func() {
