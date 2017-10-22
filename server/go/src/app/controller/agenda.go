@@ -11,26 +11,16 @@ import (
 )
 
 /*
-changeAgenda
-リクエストの中に、ルームのIDと次のアジェンダのID
-プログレッシブをいまの議題のIDに書き換える
-
 reaction
 from to type
 これをmongoにぶち込みたい
-
-result
-id, agenda_id, result
-agenda_id.resultを書き換える
 */
 
 const (
-	// id
 	wsNextAgenda = "nextAgenda"
 	// from to type
-	wsReaction = "reaction"
-	// id, result
-	wsResult = "result"
+	wsReaction       = "reaction"
+	wsDecisionAgenda = "decisionAgenda"
 )
 
 // AgendaController implements the agenda resource.
@@ -80,6 +70,18 @@ func (c *AgendaController) AddDecision(ctx *app.AddDecisionAgendaContext) error 
 	if err != nil {
 		return goa.ErrBadRequest(err)
 	}
+	type wsNextAgendaStruct struct {
+		ID       int    `json:"id"`
+		RoomID   string `json:"room_id"`
+		Decision string `json:"decision"`
+	}
+	n := &wsNextAgendaStruct{
+		ID:       ctx.ID,
+		RoomID:   ctx.Payload.RoomID,
+		Decision: ctx.Payload.Decision,
+	}
+	c.ws.Send(ctx.Payload.RoomID, wsDecisionAgenda, n)
+
 	// AgendaController_AddResult: end_implement
 	return nil
 }
