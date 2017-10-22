@@ -8,9 +8,6 @@
             <div id="self-video">
                 <video ref="selfVideo" controls muted></video>
             </div>
-            <button @click="endCall">End Call</button>
-            <input type="text" v-model="roomName">
-            <button @click="join">Join</button>
         </div>
     </div>
 </template>
@@ -24,7 +21,6 @@ export default {
   data() {
     return {
       skyWay: {},
-      roomName: '',
       speak: {},
       minutes: ''
     }
@@ -35,6 +31,11 @@ export default {
         key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
 //        debug: 3,
       })
+
+      this.skyWay.peer.on('open', () => {
+        this.skyWay.joinRoom(this.roomName)
+      })
+
       let speechRecognition = new SpeechRecognition()
       speechRecognition.onResult = (result) => {
         this.minutes += result
@@ -50,11 +51,7 @@ export default {
       this.speak.onEndSpeak = () => {
         console.log('EndSpeak')
       }
-
-//      for(var i = 0; i < 5; i++) {
-//        this.skyWay.otherStreams.push(stream)
-//      }
-
+      
       this.skyWay.joinOther = (stream) => {
       }
 
@@ -70,6 +67,11 @@ export default {
     },
     endCall() {
       this.skyWay.endCall()
+    }
+  },
+  computed: {
+    roomName() {
+      return window.location.href.split('/').reverse()[0]
     }
   },
   components: {
