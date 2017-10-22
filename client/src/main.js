@@ -7,7 +7,7 @@ Vue.use(Buefy)
 import Room from './components/Room.vue'
 Vue.component('Room', Room)
 
-import App from './App.vue'
+import App from './components/App.vue'
 Vue.component('App', App)
 
 import CreateRoom from './components/createRoom/roomCreate.vue'

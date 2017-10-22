@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  import TimeSchedule from './timeSchedule/index.vue';
   import VideoChat from "./VideoChat.vue";
   import Agenda from "./agenda/agenda.vue";
   import Decision from "./decision/decision.vue";
@@ -77,9 +78,9 @@
       VideoChat,
       Agenda,
       Decision,
+      TimeSchedule
     },
   }
-}
 </script>
 
 <style lang="scss" scoped>
