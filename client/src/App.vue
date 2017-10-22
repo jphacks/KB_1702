@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <TopView /> -->
-    <Agenda :agenda="roomData.agenda" :progress="roomData.progress" v-on:change-progress="changeProgress" />
+    <Agenda :agenda="roomData.agenda" :progress="roomData.progress" v-on:recive-next-progress="changeProgress" />
     <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
   </div>
 </template>
