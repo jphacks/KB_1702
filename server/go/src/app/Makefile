@@ -61,6 +61,14 @@ build:
 front-build:
 	$(MAKE) -C $(CLIENT) cp
 
+deploy:
+	$(MAKE) gen
+	$(MAKE) front-build
+	GOOS=linux GOARCH=amd64 go build -o goapp .
+	rsync -auz -e "ssh -i ~/.ssh/jphacks.pem" ./ ec2-user@ec2-52-41-171-121.us-west-2.compute.amazonaws.com:~/app/
+	ssh -i ~/.ssh/jphacks.pem ec2-user@ec2-52-41-171-121.us-west-2.compute.amazonaws.com -t "killall goapp || true"
+	ssh -i ~/.ssh/jphacks.pem ec2-user@ec2-52-41-171-121.us-west-2.compute.amazonaws.com -t "cd ~/app/ && nohup ./goapp &"
+
 swaggerui:
 	open http://localhost:8080/swaggerui/index.html
 
