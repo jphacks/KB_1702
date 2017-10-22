@@ -11,26 +11,16 @@ import (
 )
 
 /*
-changeAgenda
-リクエストの中に、ルームのIDと次のアジェンダのID
-プログレッシブをいまの議題のIDに書き換える
-
 reaction
 from to type
 これをmongoにぶち込みたい
-
-result
-id, agenda_id, result
-agenda_id.resultを書き換える
 */
 
 const (
-	// id
 	wsNextAgenda = "nextAgenda"
 	// from to type
-	wsReaction = "reaction"
-	// id, result
-	wsResult = "result"
+	wsReaction       = "reaction"
+	wsDecisionAgenda = "decisionAgenda"
 )
 
 // AgendaController implements the agenda resource.
@@ -57,15 +47,40 @@ func (c *AgendaController) AddReaction(ctx *app.AddReactionAgendaContext) error 
 
 	// Put your logic here
 
-	// AgendaController_AddReaction: end_implement
+	// AgendaController_AddDecision: end_implement
 	return nil
 }
 
-// AddResult runs the addResult action.
-func (c *AgendaController) AddResult(ctx *app.AddResultAgendaContext) error {
-	// AgendaController_AddResult: start_implement
+// AddDecision runs the addDecision action.
+func (c *AgendaController) AddDecision(ctx *app.AddDecisionAgendaContext) error {
+	// AgendaController_AddDecision: start_implement
 
 	// Put your logic here
+	query := bson.M{
+		"room.room_id": ctx.Payload.RoomID,
+		"room.agenda":  bson.M{"$elemMatch": bson.M{"id": ctx.ID}},
+	}
+	update := bson.M{
+		"$set": bson.M{
+			"room.agenda.$.decision": ctx.Payload.Decision,
+		},
+	}
+	mongo := c.Mgo.DB(constant.DBName).C(constant.CollectionRoom)
+	_, err := mongo.Upsert(query, update)
+	if err != nil {
+		return goa.ErrBadRequest(err)
+	}
+	type wsNextAgendaStruct struct {
+		ID       int    `json:"id"`
+		RoomID   string `json:"room_id"`
+		Decision string `json:"decision"`
+	}
+	n := &wsNextAgendaStruct{
+		ID:       ctx.ID,
+		RoomID:   ctx.Payload.RoomID,
+		Decision: ctx.Payload.Decision,
+	}
+	c.ws.Send(ctx.Payload.RoomID, wsDecisionAgenda, n)
 
 	// AgendaController_AddResult: end_implement
 	return nil

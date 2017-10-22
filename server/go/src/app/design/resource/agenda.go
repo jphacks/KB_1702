@@ -27,23 +27,23 @@ var _ = Resource("agenda", func() {
 		Response(OK)
 		UseTrait(GeneralUserTrait)
 	})
-	Action("addResult", func() {
+	Action("addDecision", func() {
 		Description("アジェンダの結論をかき出す")
 		Routing(
-			POST("/agenda/:id/result"),
+			POST("/agenda/:id/decision"),
 		)
 		Params(func() {
-			Param("id", String, "アジェンダID")
+			Param("id", Integer, "アジェンダID")
 			Required("id")
 		})
 		Payload(func() {
 			Param("room_id", String, "ルームID", func() {
 				Example("dwadwadhlaw")
 			})
-			Param("result", String, "結論", func() {
+			Param("decision", String, "結論", func() {
 				Example("いい感じだった")
 			})
-			Required("room_id", "result")
+			Required("room_id", "decision")
 		})
 		Response(OK)
 		UseTrait(GeneralUserTrait)

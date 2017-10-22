@@ -40,13 +40,14 @@ type Room struct {
 }
 
 type Agenda struct {
-	ID      int       `json:"id" bson:"id"`
-	Title   string    `json:"title" bson:"title"`
-	Goal    string    `json:"goal" bson:"goal"`
-	Time    int       `json:"time" bson:"time"`
-	StartAt time.Time `json:"start_at" bson:"start_at"`
-	EndAt   time.Time `json:"end_at" bson:"end_at"`
-	Child   []Agenda  `json:"child" bson:"child"`
+	ID       int       `json:"id" bson:"id"`
+	Title    string    `json:"title" bson:"title"`
+	Goal     string    `json:"goal" bson:"goal"`
+	Decision string    `json:"decision" bson:"decision"`
+	Time     int       `json:"time" bson:"time"`
+	StartAt  time.Time `json:"start_at" bson:"start_at"`
+	EndAt    time.Time `json:"end_at" bson:"end_at"`
+	Child    []Agenda  `json:"child" bson:"child"`
 }
 
 type InsertAgenda struct {
