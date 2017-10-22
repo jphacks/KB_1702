@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TopView from "./components/topView/index.vue";
+import TopView from "./topView/index.vue";
 
 export default {
   name: "app",
