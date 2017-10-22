@@ -9,7 +9,7 @@ export default class SkyWay
   }
 
   joinRoom(roomName) {
-    this.room = this.peer.joinRoom(roomName, {mode: 'sfu', stream: this.stream })
+    this.room = this.peer.joinRoom(roomName, {stream: this.stream })
 
     this.room.on('stream', (stream) => {
       this.otherStreams.push(stream)
