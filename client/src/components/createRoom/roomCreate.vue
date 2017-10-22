@@ -2,6 +2,10 @@
   <div id="create-room">
 
     <div class="wrapper">
+      <div class="input-title">
+        <label>ルーム名</label>
+        <input type="text" v-model="titleInput" :value="titleInput" />
+      </div>
       <div class="field agenda-setting">
         <template v-for="agenda in agendas">
           <AgendaField
@@ -13,9 +17,10 @@
       </div>
 
       <div class="buttons">
-        <label>ルーム名</label>
-        <input type="text" v-model="titleInput" :value="titleInput" />
-        <button @click="startMTG" class="start-mtg">会議を始める！</button>
+        <!--<label>ルーム名</label>-->
+        <!--<input type="text" v-model="titleInput" :value="titleInput" />-->
+        <!--<button @click="startMTG" class="start-mtg">会議を始める！</button>-->
+        <a href="/rooms/blouson" class="start-mtg">会議を始める！</a>
       </div>
     </div>
 
@@ -57,7 +62,11 @@ export default {
     display: block;
   }
   .wrapper {
+    /*width: 1200px;*/
+    width: 1120px;
+    margin: 60px auto;
     display: flex;
+    flex-direction: column;
     padding-bottom: 50px;
     .new-agenda-button {
       background-color: #E91E63;
@@ -72,21 +81,39 @@ export default {
       cursor: pointer;
     }
     .agenda-setting {
-      width: 60%;
-      height: 60vh;
+      width: 1120px;
+      /*height: 60vh;*/
       display: flex;
       flex-direction: column;
       padding: 50px 0;
     }
+    .input-title {
+      width: 1120px;
+      text-align: center;
+      label {
+        font-size: 1.5rem;
+      }
+      input {
+        display: inline-block;
+        margin: 10px auto;
+        padding: 5px;
+        font-size: 1.5rem;
+        outline: none;
+        display: block;
+        width: 90%;
+      }
+    }
     .buttons {
-      width: 40%;
+      width: 1120px;
+      /*width: 40%;
       display: flex;
       flex-direction: column;
       position: fixed;
       top: 50%;
       right: 0;
-      transform: translateY(-50%);
-      button {
+      transform: translateY(-50%);*/
+      a {
+        text-align: center;
         display: block;
         width: 50%;
         margin: 30px auto;
@@ -95,16 +122,16 @@ export default {
         font-weight: bold;
         font-size: 1rem;
       }
-      label {
-        font-size: 1.5rem;
-      }
-      input {
-        padding: 5px;
-        font-size: 1.5rem;
-        outline: none;
-        display: block;
-        width: 90%;
-      }
+      /*label {*/
+        /*font-size: 1.5rem;*/
+      /*}*/
+      /*input {*/
+        /*padding: 5px;*/
+        /*font-size: 1.5rem;*/
+        /*outline: none;*/
+        /*display: block;*/
+        /*width: 90%;*/
+      /*}*/
       .start-mtg {
         background-color: #8E24AA;
         color: white;
