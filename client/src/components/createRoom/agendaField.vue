@@ -3,9 +3,9 @@
 
     <div class="agenda-card">
       <div class="agenda-card-detail">
-        <h1>タイトル: <input type="text" v-model="title" :value="title"></h1>
-        <h1>ゴール: <input type="text" v-model="goal" :value="goal"></h1>
-        <h1>目標時間: <input type="number" v-model="targettime" :value="targettime"></h1>
+        <p>タイトル: <input type="text" v-model="data.title" :value="data.title" placeholder="議題のタイトルを入力してください"></p>
+        <p>ゴール: <input type="text" v-model="data.goal" :value="data.goal" placeholder="この議題のゴールを設定してください"></p>
+        <p>目標時間: <input type="number" v-model="data.time" :value="data.time"></p>
       </div>
       <a class="button is-danger delete-agenda" @click="destroyAgenda">×</a>
     </div>
@@ -21,9 +21,7 @@ export default {
   props: ['agenda'],
   data() {
     return {
-      title: this.agenda.title,
-      goal: this.agenda.goal,
-      targettime: this.agenda.time
+      data: this.agenda
     }
   },
   methods: {
@@ -36,9 +34,9 @@ export default {
 
 <style lang="scss">
 .agenda-field {
-  box-shadow: 0px 0px 1px black;
-  width: 300px;
-  margin: 10px 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  width: 90%;
+  margin: 10px auto;
   padding: 10px;
   position: relative;
   .agenda-card {
@@ -46,13 +44,26 @@ export default {
     align-items: center;
     .delete-agenda {
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 10px;
+      right: 10px;
     }
     .agenda-card-detail {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: flex-start;
+      width: 100%;
+      p {
+        width: 100%;
+        font-size: 1rem;
+        margin: 10px 0;
+      }
+      input {
+        display: block;
+        width: 80%;
+        font-size: 1.1rem;
+        padding: 5px;
+        outline: none;
+      }
     }
   }
 }
