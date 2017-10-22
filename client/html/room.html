@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>client</title>
-  <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
-</head>
-
-<body>
-  <div id="room">
-    <room></room>
-  </div>
-  <script src="../dist/build.js"></script>
-</body>
-
+  <head>
+    <meta charset="utf-8">
+    <title>client</title>
+    <script type="text/javascript" src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <room></room>
+    </div>
+    <script>
+      let roomId = window.location.href.split('/').reverse()[0]
+      var connection = new WebSocket('ws://' + document.domain + ':' + location.port +'/api/rooms/ws?id=' + roomId)
+      connection.onopen = function () {
+        connection.send('Ping'); // Send the message 'Ping' to the server
+      };
+      connection.onhello = function () {
+        console.log('hello')
+      };
+    </script>
+    <script src="../dist/build.js"></script>
 </html>

@@ -1,10 +1,10 @@
 <template>
     <div class="agenda-list-wrapper">
       <ul id="agenda-list">
-          <agendaItem 
-              v-for="agendaItem in agenda" 
-              :item="agendaItem" 
-              :key="agendaItem.id" 
+          <agendaItem
+              v-for="agendaItem in agenda"
+              :item="agendaItem"
+              :key="agendaItem.id"
               :progress="progress">
           </agendaItem>
       </ul>
@@ -25,24 +25,24 @@ export default {
   },
   methods: {
     changeProgress() {
-      let url = "/api/agenda/";
-
-      let path = window.location.pathname.split("/");
-      let roomId = path[path.length - 1];
-      url += roomId;
-      url += "/next";
-
-      axios
-        .post(url, {
-          finish_agenda_id: this.progress
-        })
-        .then(response => {
-          this.$emit("recive-next-progress", response.data.nextProgress);
-        })
-        .catch(error => {
-          // apiアクセスミスっても動いてるように見える
-          this.$emit("recive-next-progress", this.progress + 1);
-        });
+//      let url = "/api/agenda/";
+//
+//      let path = window.location.pathname.split("/");
+//      let roomId = path[path.length - 1];
+//      url += roomId;
+//      url += "/next";
+//
+//      axios
+//        .post(url, {
+//          finish_agenda_id: this.progress
+//        })
+//        .then(response => {
+//          this.$emit("recive-next-progress", response.data.nextProgress);
+//        })
+//        .catch(error => {
+//        });
+//      // apiアクセスミスっても動いてるように見える
+      this.$emit("recive-next-progress", this.progress + 1);
     }
   }
 };
