@@ -8,6 +8,13 @@ export default class SkyWay
     this.leaveMember = () => {}
   }
 
+  send(type, data) {
+    this.room.send({
+      type,
+      data
+    })
+  }
+
   joinRoom(roomName) {
     this.room = this.peer.joinRoom(roomName, {stream: this.stream })
 

@@ -11,14 +11,8 @@
     </div>
     <script>
       let roomId = window.location.href.split('/').reverse()[0]
-      var connection = new WebSocket('ws://' + document.domain + ':' + location.port +'/api/rooms/ws?id=' + roomId)
-      connection.onopen = function () {
-        connection.send('Ping'); // Send the message 'Ping' to the server
-      };
-      connection.onhello = function () {
-        console.log('hello')
-      };
+      var connection = new WebSocket('ws://' + document.domain + '/api/rooms/ws?id=' + roomId)
     </script>
-    <script src="../dist/build.js"></script>
+    <script src="/dist/build.js"></script>
   </body>
 </html>

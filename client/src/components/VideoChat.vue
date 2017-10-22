@@ -34,7 +34,13 @@ export default {
 
       this.skyWay.peer.on('open', () => {
         this.skyWay.joinRoom(this.roomName)
+        this.skyWay.room.on('data', (res) => {
+          this.handleOnData(res.data)
+        })
+        this.$emit('onload', this)
       })
+
+
 
       let speechRecognition = new SpeechRecognition()
       speechRecognition.onResult = (result) => {
@@ -51,7 +57,7 @@ export default {
       this.speak.onEndSpeak = () => {
         console.log('EndSpeak')
       }
-      
+
       this.skyWay.joinOther = (stream) => {
       }
 
@@ -67,7 +73,13 @@ export default {
     },
     endCall() {
       this.skyWay.endCall()
-    }
+    },
+    handleOnData({type, data}) {
+      console.log(type, data)
+      if(type == 'changeProgress') {
+        this.$parent.updateProgress(data.progress)
+      }
+    },
   },
   computed: {
     roomName() {
