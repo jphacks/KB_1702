@@ -92,7 +92,22 @@ func (c *AgendaController) Next(ctx *app.NextAgendaContext) error {
 
 	// Put your logic here
 	mongo := c.Mgo.DB(constant.DBName).C(constant.CollectionRoom)
-	nextAgendaID := ctx.Payload.FinishAgendaID + 1
+	//query := bson.M{
+	//	"room.room_id": ctx.Payload.RoomID,
+	//	"room.agenda":  bson.M{"$elemMatch": bson.M{"id": ctx.ID}},
+	//}
+	//update := bson.M{
+	//	"$currentDate": bson.M{
+	//		"lastModified":         true,
+	//		"room.agenda.$.end_at": bson.M{"$type": "timestamp"},
+	//	},
+	//}
+	//err := mongo.Update(query, update)
+	//if err != nil {
+	//	return goa.ErrBadRequest(err)
+	//}
+
+	nextAgendaID := ctx.ID + 1
 	change := bson.M{"$set": bson.M{"room.progress": nextAgendaID}}
 	find := bson.M{"room.room_id": ctx.ID}
 	err := mongo.Update(find, change)
@@ -106,7 +121,7 @@ func (c *AgendaController) Next(ctx *app.NextAgendaContext) error {
 	n := &wsNextAgendaStruct{
 		ID: nextAgendaID,
 	}
-	c.ws.Send(ctx.ID, wsNextAgenda, n)
+	c.ws.Send(ctx.Payload.RoomID, wsNextAgenda, n)
 
 	// AgendaController_Next: end_implement
 	return nil

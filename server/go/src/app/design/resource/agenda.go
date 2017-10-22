@@ -15,14 +15,15 @@ var _ = Resource("agenda", func() {
 			POST("/agenda/:id/next"),
 		)
 		Params(func() {
-			Param("id", String, "アジェンダID")
-			Required("id")
+			Param("id", Integer, "終了した議題ID", func() {
+				Example(2)
+			})
 		})
 		Payload(func() {
-			Param("finish_agenda_id", Integer, "議題が終了したID", func() {
-				Example(3)
+			Param("room_id", String, "ルームID", func() {
+				Example("dwadadawdha")
 			})
-			Required("finish_agenda_id")
+			Required("room_id")
 		})
 		Response(OK)
 		UseTrait(GeneralUserTrait)
