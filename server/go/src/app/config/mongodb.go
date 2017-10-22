@@ -1,44 +1,41 @@
 package config
 
 import (
+	"errors"
 	"io"
 	"io/ioutil"
 	"os"
+
+	"fmt"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/yaml.v1"
 )
 
-// Configs 環境ごとの設定情報をもつ
-type Configs map[string]*Config
+// S3Configs は用途ごとのS3情報を持つ
+type MongodbConfigs map[string]*Mongodb
 
-// Open 指定された環境についてDBに接続します。
-func (cs Configs) MongodbOpen(env string) (*mgo.Session, error) {
-	config, ok := cs[env]
+// S3 S3の情報
+type Mongodb struct {
+	Hosts    string `yaml:"hosts"`
+	Database string `yaml:"database"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
+// Get は指定された用途のOauth認証情報を返す
+func (sc MongodbConfigs) MongoOpen(purpose string) (*mgo.Session, error) {
+	c, ok := sc[purpose]
 	if !ok {
-		return nil, nil
+		return nil, errors.New("No such config")
 	}
-	return config.MongodbOpen()
+	return mgo.Dial(fmt.Sprintf("mongodb://%s", c.Hosts))
+	// [mongodb://][user:pass@]host1[:port1][,host2[:port2],...][/database][?options]
+	//fmt.Println(fmt.Sprintf("mongodb://%s:%s@%s/%s", c.Username, c.Password, c.Hosts, c.Database))
 }
 
-// Config sql-migrateの設定ファイルと同じ形式を想定している
-type Config struct {
-	Datasource string `yaml:"datasource"`
-}
-
-// DSN 設定されているDSNを返します
-func (c *Config) DSN() string {
-	return c.Datasource
-}
-
-// Open Configで指定されている接続先に接続する。
-// MySQL固定
-func (c *Config) MongodbOpen() (*mgo.Session, error) {
-	return mgo.Dial(c.DSN())
-}
-
-// NewConfigsFromFile Configから設定を読み取る
-func NewMongodbConfigsFromFile(path string) (Configs, error) {
+// NewS3ConfigsFromFile Configから設定を読み取る
+func NewMongodbConfigsFromFile(path string) (MongodbConfigs, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -47,13 +44,13 @@ func NewMongodbConfigsFromFile(path string) (Configs, error) {
 	return NewMongodbConfigs(f)
 }
 
-// NewConfigs io.ReaderからDB用設定を読み取る
-func NewMongodbConfigs(r io.Reader) (Configs, error) {
+// NewS3Configs io.ReaderからS3設定を読み取る
+func NewMongodbConfigs(r io.Reader) (MongodbConfigs, error) {
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
-	var configs Configs
+	var configs MongodbConfigs
 	if err = yaml.Unmarshal(b, &configs); err != nil {
 		return nil, err
 	}

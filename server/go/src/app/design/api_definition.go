@@ -4,7 +4,6 @@ import (
 	"os"
 
 	. "app/design/constant"
-	_ "app/design/models"
 	_ "app/design/resource"
 
 	. "github.com/goadesign/goa/design"
@@ -40,6 +39,12 @@ var _ = API(REPO, func() {
 	}())
 	BasePath("/")
 	Trait(GeneralUserTrait, func() {
+		Response(Unauthorized, ErrorMedia)
+		Response(NotFound)
+		Response(BadRequest, ErrorMedia)
+		Response(InternalServerError, ErrorMedia)
+	})
+	Trait(WebsocketTrait, func() {
 		Response(Unauthorized, ErrorMedia)
 		Response(NotFound)
 		Response(BadRequest, ErrorMedia)

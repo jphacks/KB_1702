@@ -38,7 +38,7 @@ func (s *Server) loadConfig(settingFolder string, env string) {
 	if err != nil {
 		log.Fatalf("cannot open mongodb configuration. exit. %s", err)
 	}
-	s.mongodb, err = cs.MongodbOpen(env)
+	s.mongodb, err = cs.MongoOpen(env)
 	if err != nil {
 		log.Fatalf("mongodb initialization failed: %s", err)
 	}
@@ -48,6 +48,9 @@ func (s *Server) mountController() {
 	// Mount "rooms" controller
 	room := controller.NewRoomsController(s.service, s.mongodb)
 	app.MountRoomsController(s.service, room)
+	// Mount "agenda" controller
+	agenda := controller.NewAgendaController(s.service, s.mongodb)
+	app.MountAgendaController(s.service, agenda)
 	// Mount "front" controller
 	front := controller.NewFrontController(s.service)
 	app.MountFrontController(s.service, front)

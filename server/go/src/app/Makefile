@@ -19,7 +19,6 @@ depend:
 	go get -u github.com/alecthomas/gometalinter/...
 	gometalinter --install --update --force
 	go get -u github.com/goadesign/goa
-	go get -u github.com/goadesign/gorma
 	go get -u github.com/jinzhu/gorm
 	go get -u github.com/deadcheat/goacors
 
@@ -43,15 +42,12 @@ generate:
 	goagen client -d $(REPO)/design
 	goagen schema -d $(REPO)/design
 
-models:
-	ls models | grep -v '_defined.go' | xargs rm -f
-	goagen --design=$(REPO)/design gen --pkg-path=github.com/goadesign/gorma
-
 ##### etc #####
 
 ENV:=develop
 PORT:=:8080
 NOSECURE:=false
+CLIENT:=../../../../client
 
 set-config:
 	cp -f config/mongodb.yml.tmpl config/mongodb.yml
@@ -61,6 +57,9 @@ run:
 
 build:
 	go build -o goapp .
+
+front-build:
+	$(MAKE) -C $(CLIENT) cp
 
 swaggerui:
 	open http://localhost:8080/swaggerui/index.html
