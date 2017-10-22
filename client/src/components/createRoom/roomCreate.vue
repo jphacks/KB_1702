@@ -17,10 +17,10 @@
       </div>
 
       <div class="buttons">
-        <!--<label>ルーム名</label>-->
-        <!--<input type="text" v-model="titleInput" :value="titleInput" />-->
-        <!--<button @click="startMTG" class="start-mtg">会議を始める！</button>-->
-        <a href="/rooms/blouson" class="start-mtg">会議を始める！</a>
+        <label>ルーム名</label>
+        <input type="text" v-model="titleInput" :value="titleInput" />
+        <button @click="startMTG" class="start-mtg">会議を始める！</button>
+        <!-- <a href="/rooms/blouson" class="start-mtg">会議を始める！</a> -->
       </div>
     </div>
 
@@ -28,19 +28,21 @@
 </template>
 
 <script>
-import AgendaField from './agendaField.vue';
-import agendaManager from '../../lib/AgendaManager';
+import AgendaField from "./agendaField.vue";
+import agendaManager from "../../lib/AgendaManager";
+
+import axios from "axios";
 
 export default {
-  name: 'room-create',
+  name: "room-create",
   components: {
     AgendaField
   },
   data() {
     return {
-      titleInput: '',
+      titleInput: "",
       agendas: agendaManager.data
-    }
+    };
   },
   methods: {
     create() {
@@ -48,11 +50,23 @@ export default {
     },
     startMTG() {
       const agendaData = JSON.parse(JSON.stringify(agendaManager.data));
-      const formatedData = agendaManager.postFormat(this.titleInput, agendaData);
-      console.log(formatedData)
+      const formatedData = agendaManager.postFormat(
+        this.titleInput,
+        agendaData
+      );
+      console.log(formatedData);
+
+      const url = "https://blouson.tech/api/rooms";
+
+      axios.post(url, formatedData).then(response => {
+        if (response.status === 302) {
+          window.location = response.headers.location
+        } 
+      }
+      );
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -69,7 +83,7 @@ export default {
     flex-direction: column;
     padding-bottom: 50px;
     .new-agenda-button {
-      background-color: #E91E63;
+      background-color: #e91e63;
       color: white;
       width: 90%;
       text-align: center;
@@ -123,17 +137,17 @@ export default {
         font-size: 1rem;
       }
       /*label {*/
-        /*font-size: 1.5rem;*/
+      /*font-size: 1.5rem;*/
       /*}*/
       /*input {*/
-        /*padding: 5px;*/
-        /*font-size: 1.5rem;*/
-        /*outline: none;*/
-        /*display: block;*/
-        /*width: 90%;*/
+      /*padding: 5px;*/
+      /*font-size: 1.5rem;*/
+      /*outline: none;*/
+      /*display: block;*/
+      /*width: 90%;*/
       /*}*/
       .start-mtg {
-        background-color: #8E24AA;
+        background-color: #8e24aa;
         color: white;
         cursor: pointer;
       }
