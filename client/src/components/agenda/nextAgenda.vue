@@ -7,7 +7,9 @@ export default {
   props: ["progress"],
   methods: {
     next() {
-        this.$emit('to-next-progress')
+      let element = document.getElementById("agenda-list");
+      element.scrollTop = element.scrollHeight - element.clientHeight - 10;
+      this.$emit("to-next-progress");
     }
   }
 };
