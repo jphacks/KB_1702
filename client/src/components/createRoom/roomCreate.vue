@@ -17,8 +17,8 @@
       </div>
 
       <div class="buttons">
-        <label>ルーム名</label>
-        <input type="text" v-model="titleInput" :value="titleInput" />
+        <!-- <label>ルーム名</label>
+        <input type="text" v-model="titleInput" :value="titleInput" />-->
         <button @click="startMTG" class="start-mtg">会議を始める！</button>
         <!-- <a href="/rooms/blouson" class="start-mtg">会議を始める！</a> -->
       </div>
@@ -126,7 +126,7 @@ export default {
       top: 50%;
       right: 0;
       transform: translateY(-50%);*/
-      a {
+      button {
         text-align: center;
         display: block;
         width: 50%;

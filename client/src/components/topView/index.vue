@@ -2,7 +2,7 @@
   <div id="topView">
     <h1>Blouson</h1>
     <h2>35億人のためのミーティングツール</h2>
-    <button>会議を始める</button>
+    <button onclick="location.href = '/rooms'">会議を始める</button>
   </div>
 </template>
 
