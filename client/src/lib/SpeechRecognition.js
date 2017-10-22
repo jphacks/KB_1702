@@ -21,7 +21,6 @@ export default class SpeechRecognition
     }
 
     recognition.onresult = (event) => {
-      console.log(event)
       let transcript = '';
       let results = event.results;
       for (var i = event.resultIndex; i < results.length; i++) {
