@@ -9,6 +9,9 @@ Vue.component('Room', Room)
 import App from './App.vue'
 Vue.component('App', App)
 
+import CreateRoom from './components/createRoom/index.vue'
+Vue.component('CreateRoom', CreateRoom)
+
 Vue.use(Buefy)
 
 import AgendaItem from './components/agenda/agendaItem.vue'
