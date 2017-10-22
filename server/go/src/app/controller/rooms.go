@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"time"
 
 	"app/util"
 
@@ -31,23 +30,23 @@ func NewRoomsController(service *goa.Service, mgo *mgo.Session) *RoomsController
 }
 
 type Room struct {
-	RoomID   string    `json:"room_id" bson:"room_id"`
-	Name     string    `json:"name" bson:"name"`
-	Progress int       `json:"progress" bson:"progress"`
+	RoomID   string `json:"room_id" bson:"room_id"`
+	Name     string `json:"name" bson:"name"`
+	Progress int    `json:"progress" bson:"progress"`
 	//StartAt  time.Time `json:"start_at" bson:"start_at"`
 	//EndAt    time.Time `json:"end_at" bson:"end_at"`
-	Agenda   []Agenda  `json:"agenda" bson:"agenda"`
+	Agenda []Agenda `json:"agenda" bson:"agenda"`
 }
 
 type Agenda struct {
-	ID       int       `json:"id" bson:"id"`
-	Title    string    `json:"title" bson:"title"`
-	Goal     string    `json:"goal" bson:"goal"`
-	Decision string    `json:"decision" bson:"decision"`
-	Time     int       `json:"time" bson:"time"`
+	ID       int    `json:"id" bson:"id"`
+	Title    string `json:"title" bson:"title"`
+	Goal     string `json:"goal" bson:"goal"`
+	Decision string `json:"decision" bson:"decision"`
+	Time     int    `json:"time" bson:"time"`
 	//StartAt  time.Time `json:"start_at" bson:"start_at"`
 	//EndAt    time.Time `json:"end_at" bson:"end_at"`
-	Child    []Agenda  `json:"child" bson:"child"`
+	Child []Agenda `json:"child" bson:"child"`
 }
 
 type InsertAgenda struct {
