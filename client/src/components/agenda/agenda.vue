@@ -1,13 +1,15 @@
 <template>
-    <ul class="agenda-list">
-        <agendaItem 
-            v-for="agendaItem in agenda" 
-            :item="agendaItem" 
-            :key="agendaItem.id" 
-            :progress="progress">
-        </agendaItem>
-        <nextAgenda :progress="progress" v-on:to-next-progress="changeProgress"></nextAgenda>
-    </ul>
+    <div class="agenda-list-wrapper">
+      <ul id="agenda-list">
+          <agendaItem 
+              v-for="agendaItem in agenda" 
+              :item="agendaItem" 
+              :key="agendaItem.id" 
+              :progress="progress">
+          </agendaItem>
+      </ul>
+      <nextAgenda :progress="progress" v-on:to-next-progress="changeProgress"></nextAgenda>
+    </div>
 </template>
 
 <script>
@@ -45,3 +47,14 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.agenda-list-wrapper {
+  height: 100%;
+}
+
+#agenda-list {
+  height: 100%;
+  overflow-y: scroll;
+}
+</style>
