@@ -1,15 +1,17 @@
 <template>
+  <div class="agenda-list-wrapper-parent">
     <div class="agenda-list-wrapper">
       <ul id="agenda-list">
-          <agendaItem 
-              v-for="agendaItem in agenda" 
-              :item="agendaItem" 
-              :key="agendaItem.id" 
+          <agendaItem
+              v-for="agendaItem in agenda"
+              :item="agendaItem"
+              :key="agendaItem.id"
               :progress="progress">
           </agendaItem>
       </ul>
-      <nextAgenda :progress="progress" v-on:to-next-progress="changeProgress"></nextAgenda>
     </div>
+    <nextAgenda :progress="progress" v-on:to-next-progress="changeProgress"></nextAgenda>
+  </div>
 </template>
 
 <script>
@@ -40,7 +42,6 @@ export default {
           this.$emit("recive-next-progress", response.data.nextProgress);
         })
         .catch(error => {
-          // apiアクセスミスっても動いてるように見える
           this.$emit("recive-next-progress", this.progress + 1);
         });
     }
@@ -49,12 +50,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.agenda-list-wrapper {
-  height: 100%;
+.agenda-list-wrapper-parent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
-
-#agenda-list {
-  height: 100%;
-  overflow-y: scroll;
+.agenda-list-wrapper {
+  width: 100%;
+  height: 30vh;
+  overflow: scroll;
 }
 </style>

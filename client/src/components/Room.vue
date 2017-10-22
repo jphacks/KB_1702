@@ -39,16 +39,14 @@ export default {
             time: 10,
             start_at: "1995-01-11T06:25:13+09:00",
             end_at: "1995-01-11T06:25:13+09:00",
-            child: [
-              {
-                id: 2,
-                title: "アイデア出し",
-                goal: "アイデアを10個出す",
-                time: 10,
-                start_at: "1995-01-11T06:25:13+09:00",
-                end_at: "1995-01-11T06:25:13+09:00"
-              }
-            ]
+          },
+          {
+            id: 2,
+            title: "アイデア出し",
+            goal: "アイデアを10個出す",
+            time: 10,
+            start_at: "1995-01-11T06:25:13+09:00",
+            end_at: "1995-01-11T06:25:13+09:00"
           },
           {
             id: 3,
@@ -82,6 +80,11 @@ export default {
     width: 100vw;
     .left {
       width: 50vw;
+      background:-webkit-gradient(linear, left top, right bottom, from(rgba(74,185,236,0.7)), to(rgba(110,13,193,0.7)));
+      background:-webkit-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:-moz-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:-o-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:linear-gradient(to right bottom, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
     }
     .right {
       width: 50vw;

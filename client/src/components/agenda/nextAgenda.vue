@@ -1,5 +1,5 @@
 <template>
-  <button class="button is-info" @click="next">NEXT > </button>
+  <button class="next-button" @click="next">次へ</button>
 </template>
 
 <script>
@@ -15,6 +15,15 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.next-button {
+  width: 70px;
+  border: 1px solid #303F9F;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  background-color: transparent;
+  color: #303F9F;
+  margin: 10px 5%;
+}
 </style>

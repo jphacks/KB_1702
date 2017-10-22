@@ -91,8 +91,9 @@ export default {
   align-items: center;
 }
 #time-schedule {
-  width: 100%;
+  width: 99.5%;
   height: 20vh;
+  background-color: #fff;
   .meeting-title {
     padding: 10px;
     font-size: 2rem;
