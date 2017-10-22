@@ -56,8 +56,10 @@ run:
 	go run server.go
 
 build:
-	$(MAKE) -C $(CLIENT) cp
 	go build -o goapp .
+
+front-build:
+	$(MAKE) -C $(CLIENT) cp
 
 swaggerui:
 	open http://localhost:8080/swaggerui/index.html
