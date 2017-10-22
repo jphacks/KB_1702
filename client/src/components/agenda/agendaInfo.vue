@@ -14,23 +14,27 @@ export default {
 
 <style lang="scss" scoped>
 .agenda-info {
-  & div {
-    font-size: 1em;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  .agenda-info-title {
+    font-size: 1.1rem;
+    &:before {
+      content: '議題： ';
+    }
   }
-  & .agenda-info-goal {
-    margin-left: 1em;
+  .agenda-info-goal {
+    font-size: 1.1rem;
+    &:before {
+      content: '達成： ';
+    }
   }
-  & .agenda-info-time {
-    margin-left: 1em;
-  }
-}
-
-.progressing {
-  background-color: lightsteelblue;
-  .label {
-    font-size: 150%;
-    color: #2f2f2f;
-    font-weight: bolder;
+  .agenda-info-time {
+    font-size: 1.1rem;
+    &:before {
+      content: '目標： ';
+    }
   }
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <li class="agenda-item" :data-agenda-id="item.id">
-        <agendaInfo :title="item.title" :goal="item.goal" :time="item.time" :class="{progressing: isProgressing}"></agendaInfo>
-        <template v-if="item.child">
-            <ul class="agenda-child-list">
-                <agenda-item v-for="agenda in item.child" :item="agenda" :key="agenda.id" :progress="progress"></agenda-item>
-            </ul>
-        </template>
+    <agendaInfo
+      :title="item.title"
+      :goal="item.goal"
+      :time="item.time"
+      :class="{progressing: isProgressing}"
+    />
   </li>
 </template>
 
@@ -17,16 +17,6 @@ export default {
   components: {
     AgendaInfo
   },
-  //   data() {
-  //       return {
-  //           isProgressing: false
-  //       }
-  //   },
-  //   mounted() {
-  //       if (this.item.id === this.progress) {
-  //           this.isProgressing = true
-  //       }
-  //   },
   computed: {
     isProgressing() {
       return this.item.id === this.progress;
@@ -36,12 +26,10 @@ export default {
 </script>
 
 <style lang="scss">
-.progressing {
-  div {
-    font-size: 150%;
-    color: #2f2f2f;
-    font-weight: bolder;
-  }
+.agenda-item {
+  margin: 10px auto;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 </style>
 

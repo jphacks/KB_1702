@@ -1,26 +1,24 @@
 <template>
-  <li class="decision-item">
-    <DecisionForm :class="{progressing: isProgressing}" v-on:update-decision="updateDecision">
-    </DecisionForm>
+  <div class="decision-item">
+    <h1>アイデア出し</h1>
+    <textarea></textarea>
     <ResultButton v-on:fix-decision="postDecision"></ResultButton>
-  </li>
+  </div>
 </template>
 
 <script>
-import DecisionForm from "./decisionForm.vue";
-import ResultButton from "./resultButton.vue";
 import axios from "axios";
+import ResultButton from './resultButton.vue';
 
 export default {
   props: ["item", "progress"],
-  components: {
-    DecisionForm,
-    ResultButton
-  },
   data() {
     return {
       decision: ""
     };
+  },
+  components: {
+    ResultButton,
   },
   methods: {
     updateDecision(decision) {
@@ -44,12 +42,20 @@ export default {
 </script>
 
 <style lang="scss">
-.progressing {
-  background-color: lightsteelblue;
-  .label {
-    font-size: 150%;
-    color: #2f2f2f;
-    font-weight: bolder;
+.decision-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  h1 {
+    margin: 10px auto;
+    width: 90%;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  textarea {
+    width: 90%;
+    height: 20vh;
+    margin: 0 auto 50px;
   }
 }
 </style>

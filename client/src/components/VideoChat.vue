@@ -1,14 +1,17 @@
 <template>
     <div id="video-chat">
         <div id="other-videos">
+            <persona stream="stream"></persona>
             <persona v-for="stream in skyWay.otherStreams" :stream="stream"></persona>
-            <p>{{ minutes }}</p>
+            <!-- <p>{{ minutes }}</p> -->
         </div>
-        <div id="chat-actions">
+        <!-- <div id="chat-actions">
             <div id="self-video">
                 <video ref="selfVideo" controls muted></video>
             </div>
-        </div>
+        </div> -->
+
+        <button class="end-call" @click="endCall">会議を終わる</button>
     </div>
 </template>
 
@@ -22,12 +25,14 @@ export default {
     return {
       skyWay: {},
       speak: {},
-      minutes: ''
+      minutes: '',
+      selfStream: null,
     }
   },
   mounted() {
     navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(stream => {
-      this.skyWay = new SkyWay(stream, {
+      this.selfStream = stream
+      this.skyWay = new SkyWay(this.selfStream, {
         key: 'a559a530-2f4b-4c14-a9e3-72c9407503ed',
 //        debug: 3,
       })
@@ -40,14 +45,16 @@ export default {
         this.$emit('onload', this)
       })
 
-
+      for(var i = 0; i < 5; i++) {
+        this.skyWay.otherStream.push(stream)
+      }
 
       let speechRecognition = new SpeechRecognition()
       speechRecognition.onResult = (result) => {
         this.minutes += result
       }
 
-      this.speak = new Speak(stream)
+      this.speak = new Speak(this.selfStream)
       this.speak.onStartSpeak = () => {
 
         console.log('StartSpeak')
@@ -94,7 +101,7 @@ export default {
 
 <style scoped lang="scss">
     #video-chat {
-        height:100%;
+        height: 80vh;
         width: 100%;
     }
     #other-videos {
@@ -103,8 +110,6 @@ export default {
         grid-template-rows: 40% 40%;
         grid-column-gap: 5%;
         grid-row-gap: 5%;
-        /*display: flex;*/
-        /*justify-content: space-around;*/
         flex-wrap: wrap;
         height: 80%;
         width: 100%;
@@ -124,4 +129,19 @@ export default {
             }
         }
     }
+
+.end-call {
+  position: fixed;
+  bottom: 50px;
+  right: 25%;
+  border: 0;
+  color: white;
+  background-color: #F44336;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  font-weight: bold;
+  width: 40%;
+  transform: translateX(50%);
+  cursor: pointer;
+}
 </style>

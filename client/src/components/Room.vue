@@ -1,16 +1,17 @@
 <template>
-    <div id="room">
-        <div style="background-color: red">
-        </div>
-        <div style="background-color: yellow">
-          <Agenda :agenda="roomData.agenda" :progress="roomData.progress" @recive-next-progress="changeProgress" />
-          <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
-        </div>
-        <div style="background-color: green">
-            <video-chat ref="video_chat" @onload="roomOnLoad"></video-chat>
-        </div>
-        <div style="background-color: blue"></div>
+  <div id="room">
+    <div class="left">
+      <TimeSchedule
+        room-start="2017-10-21T16:40:00+09:00"
+        title="JPHACKS いろいろ考える会"
+      />
+      <VideoChat />
     </div>
+    <div class="right">
+      <Agenda :agenda="roomData.agenda" :progress="roomData.progress" @recive-next-progress="changeProgress" />
+      <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -78,14 +79,23 @@
       Decision,
     },
   }
+}
 </script>
 
-<style scoped>
-#room {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 70% 30%;
-  grid-template-rows: 20% 80%;
-}
+<style lang="scss" scoped>
+  #room {
+    display: flex;
+    width: 100vw;
+    .left {
+      width: 50vw;
+      background:-webkit-gradient(linear, left top, right bottom, from(rgba(74,185,236,0.7)), to(rgba(110,13,193,0.7)));
+      background:-webkit-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:-moz-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:-o-linear-gradient(left top, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+      background:linear-gradient(to right bottom, rgba(74,185,236,0.7), rgba(110,13,193,0.7));
+    }
+    .right {
+      width: 50vw;
+    }
+  }
 </style>

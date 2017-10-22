@@ -14,7 +14,3 @@ export default {
   components: { DecisionItem },
 };
 </script>
-
-<style>
-
-</style>

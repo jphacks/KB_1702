@@ -1,17 +1,9 @@
 <template>
     <div class="persona" :style="{ 'border-color': voltage }">
-        <div class="vide-area">
-            <video ref="video" autoplay playsinline controls></video>
-            <img v-show="isSpeak" src="../assets/speech-bubble.svg" alt="">
+        <div class="video-area">
+            <video ref="video" autoplay playsinline ></video>
+            <img v-show="isSpeak" src="../assets/speech-bubble.svg" alt="hukidashi">
         </div>
-        <!--<div class="actions">-->
-            <!--<div class="action-btn">-->
-                <!--<img src="../assets/like.svg" alt="">-->
-            <!--</div>-->
-            <!--<div class="action-btn">-->
-                <!--<img src="../assets/thumb-up.svg" alt="">-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
 </template>
 
@@ -69,53 +61,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .persona {
-        border: solid 4px gray;
-        border-radius: 10px;
-        overflow: hidden;
-        /*display: inline-block;*/
-        width: 100%;
-        height: 100%;
-        /*margin-left: 2%;*/
-        /*margin-top: 6.66%;*/
-        box-sizing: border-box;
-
-        .vide-area {
-            display: inline-block;
-            position: relative;
-            video {
-                width: 100%;
-                width: 100%;
-                height:100%;
-            }
-
-            img {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                width: 50%;
-                height: 50%;
-            }
-        }
+.persona {
+  border: solid 4px gray;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  box-sizing: border-box;
+  .video-area {
+    position: relative;
+    video {
+      transform: scale(1.7);
+      width: 100%;
+      height:100%;
     }
-
-    .is-speak {
-        border-color: red;
+    img {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 50%;
+      height: 50%;
     }
+  }
+}
 
-    .actions {
-        display: flex;
-        height: 100px;
-    }
-    .action-btn {
-        flex: 1;
-        height: 100%;
-        text-align: center;
-        img {
-            width: auto;
-            height: 50%;
-        }
-    }
+.is-speak {
+  border-color: red;
+}
 
+.actions {
+  display: flex;
+  height: 100px;
+}
+.action-btn {
+  flex: 1;
+  height: 100%;
+  text-align: center;
+  img {
+    width: auto;
+    height: 50%;
+  }
+}
 
 </style>
