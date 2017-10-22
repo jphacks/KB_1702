@@ -1,82 +1,90 @@
 <template>
-    <div id="room">
-        <div style="background-color: red">
-        </div>
-        <div style="background-color: yellow">
-          <Agenda :agenda="roomData.agenda" :progress="roomData.progress" @recive-next-progress="changeProgress" />
-          <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
-        </div>
-        <div style="background-color: green">
-            <video-chat></video-chat>
-        </div>
-        <div style="background-color: blue"></div>
+  <div id="room">
+    <div class="left">
+      <TimeSchedule
+        room-start="2017-10-21T16:40:00+09:00"
+        title="JPHACKS いろいろ考える会"
+      />
+      <VideoChat />
     </div>
+    <div class="right">
+      <Agenda :agenda="roomData.agenda" :progress="roomData.progress" @recive-next-progress="changeProgress" />
+      <Decision :agenda="roomData.agenda" :progress="roomData.progress" />
+    </div>
+  </div>
 </template>
 
 <script>
-  import VideoChat from './VideoChat.vue'
-  import Agenda from './agenda/agenda.vue'
-  import Decision from './decision/decision.vue'
+import VideoChat from './VideoChat.vue'
+import Agenda from './agenda/agenda.vue'
+import Decision from './decision/decision.vue'
 
-  export default {
-    data() {
-      return {
-        roomData: {
-          id: "dwabdhjwabkjdbadkad",
-          name: "うぇいサウンド",
-          progress: 1,
-          start_at: "1995-01-11T06:25:13+09:00",
-          end_at: "1995-01-11T06:25:13+09:00",
-          agenda: [
-            {
-              id: 1,
-              title: "アイデア出し",
-              goal: "アイデアを10個出す",
-              time: 10,
-              start_at: "1995-01-11T06:25:13+09:00",
-              end_at: "1995-01-11T06:25:13+09:00",
-              child: [
-                {
-                  id: 2,
-                  title: "アイデア出し",
-                  goal: "アイデアを10個出す",
-                  time: 10,
-                  start_at: "1995-01-11T06:25:13+09:00",
-                  end_at: "1995-01-11T06:25:13+09:00"
-                }
-              ]
-            },
-            {
-              id: 3,
-              title: "アイデア出し",
-              goal: "アイデアを10個出す",
-              time: 10,
-              start_at: "1995-01-11T06:25:13+09:00",
-              end_at: "1995-01-11T06:25:13+09:00"
-            }
-          ]
-        }
-      }
-    },
-    methods: {
-      changeProgress(progress) {
-        this.roomData.progress = progress;
-      }
-    },
-    components: {
-      VideoChat,
-      Agenda,
-      Decision,
+// components
+import TimeSchedule from './timeSchedule/index.vue';
+
+export default {
+  data() {
+    return {
+      roomData: {
+        id: "dwabdhjwabkjdbadkad",
+        name: "うぇいサウンド",
+        progress: 1,
+        start_at: "1995-01-11T06:25:13+09:00",
+        end_at: "1995-01-11T06:25:13+09:00",
+        agenda: [
+          {
+            id: 1,
+            title: "アイデア出し",
+            goal: "アイデアを10個出す",
+            time: 10,
+            start_at: "1995-01-11T06:25:13+09:00",
+            end_at: "1995-01-11T06:25:13+09:00",
+            child: [
+              {
+                id: 2,
+                title: "アイデア出し",
+                goal: "アイデアを10個出す",
+                time: 10,
+                start_at: "1995-01-11T06:25:13+09:00",
+                end_at: "1995-01-11T06:25:13+09:00"
+              }
+            ]
+          },
+          {
+            id: 3,
+            title: "アイデア出し",
+            goal: "アイデアを10個出す",
+            time: 10,
+            start_at: "1995-01-11T06:25:13+09:00",
+            end_at: "1995-01-11T06:25:13+09:00"
+          }
+        ]
+      },
     }
+  },
+  methods: {
+    changeProgress(progress) {
+      this.roomData.progress = progress;
+    }
+  },
+  components: {
+    VideoChat,
+    Agenda,
+    Decision,
+    TimeSchedule,
   }
+}
 </script>
 
-<style scoped>
-    #room {
-        width: 100vw;
-        height: 100vh;
-        display: grid;
-        grid-template-columns: 70% 30%;
-        grid-template-rows: 20% 80%;
+<style lang="scss" scoped>
+  #room {
+    display: flex;
+    width: 100vw;
+    .left {
+      width: 50vw;
     }
+    .right {
+      width: 50vw;
+    }
+  }
 </style>

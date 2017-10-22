@@ -4,10 +4,7 @@
     <div class="times">
       <div class="elapsed-goal">
         <p class="title">経過時間 / 目標時間</p>
-        <p class="time" v-if="isElapsedTimeOver">
-          <span class="js-elapsed-time over">{{ time.agenda.elapsed }}</span> / {{ time.agenda.goal }}
-        </p>
-        <p class="time" v-else>
+        <p class="time">
           <span class="js-elapsed-time">{{ time.agenda.elapsed }}</span> / {{ time.agenda.goal }}
         </p>
       </div>
@@ -87,41 +84,39 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .times-flex-column {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 #time-schedule {
-  width: 50%;
+  width: 100%;
+  height: 20vh;
   .meeting-title {
-    margin: 0;
-    font-size: 1.5rem;
+    padding: 10px;
+    font-size: 2rem;
   }
   .times {
     width: 50%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     .elapsed-goal,
     .total {
+      margin: 0 20px;
       @extend .times-flex-column;
     }
     .title {
       margin: 0;
       font-size: 0.7rem;
       letter-spacing: 1.5px;
+      transform: translateY(5px);
+      color: rgba(0,0,0,0.5);
     }
     .time {
       margin: 0;
       font-size: 1.5rem;
       letter-spacing: 1px;
-    }
-
-    .js-elapsed-time.over {
-      color: red;
-      font-size: 3rem;
     }
   }
 }
