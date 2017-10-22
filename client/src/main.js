@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 
+Vue.use(Buefy)
 
 import Room from './components/Room.vue'
 Vue.component('Room', Room)
@@ -9,18 +10,20 @@ Vue.component('Room', Room)
 import App from './App.vue'
 Vue.component('App', App)
 
-import CreateRoom from './components/createRoom/index.vue'
-Vue.component('CreateRoom', CreateRoom)
-
-Vue.use(Buefy)
+import CreateRoom from './components/createRoom/roomCreate.vue'
+Vue.component('room-create', CreateRoom)
 
 import AgendaItem from './components/agenda/agendaItem.vue'
 Vue.component('AgendaItem', AgendaItem)
 
-import DecisionItem from './components/decision/decisionItem.vue'
-Vue.component('DecisionItem', DecisionItem)
-
 new Vue({
   el: '#app',
-  // render: h => h(App)
+})
+
+new Vue({
+  el: '#room-create'
+})
+
+new Vue({
+  el: '#room'
 })
