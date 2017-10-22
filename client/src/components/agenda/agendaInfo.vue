@@ -24,4 +24,13 @@ export default {
     margin-left: 1em;
   }
 }
+
+.progressing {
+  background-color: lightsteelblue;
+  .label {
+    font-size: 150%;
+    color: #2f2f2f;
+    font-weight: bolder;
+  }
+}
 </style>
