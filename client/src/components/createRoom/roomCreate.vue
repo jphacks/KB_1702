@@ -58,12 +58,15 @@ export default {
 
       const url = "https://blouson.tech/api/rooms";
 
-      axios.post(url, formatedData).then(response => {
-        if (response.status === 302) {
-          window.location = response.headers.location
-        } 
-      }
-      );
+      axios
+        .post(url, formatedData)
+        .then(response => {
+          console.log(response);
+          window.location = 'https://blouson.tech' + response.data
+        })
+        .catch(error => {
+          
+        });
     }
   }
 };

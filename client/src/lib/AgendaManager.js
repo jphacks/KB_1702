@@ -11,8 +11,8 @@ class AgendaManager {
       title: '',
       goal: '',
       time: 10,
-      start_at: '',
-      end_at: ''
+      start_at: 1,
+      end_at: 1
     })
   }
 
@@ -28,8 +28,8 @@ class AgendaManager {
         room_id: "",
         name,
         progress: 1,
-        start_at: "",
-        end_at: "",
+        start_at: 1,
+        end_at: 1,
         agenda
       }
     }
